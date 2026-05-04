@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Issued Certificates | GreenTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#eef5f1,#dfe9e4);
+      color:#23352b;
+    }
+
+    header{
+      background:#1f5c3f;
+      color:white;
+      padding:18px 24px;
+      box-shadow:0 6px 16px rgba(0,0,0,0.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:12px;
+    }
+
+    header h1{
+      font-size:24px;
+      margin:0;
+    }
+
+    .header-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .back-btn,
+    .small-btn{
+      text-decoration:none;
+      color:white;
+      background:rgba(255,255,255,0.15);
+      padding:9px 14px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:14px;
+      border:none;
+      cursor:pointer;
+    }
+
+    .back-btn:hover,
+    .small-btn:hover{
+      background:rgba(255,255,255,0.22);
+    }
+
+    .container{
+      max-width:1100px;
+      margin:28px auto;
+      padding:0 18px 32px;
+    }
+
+    .top-card{
+      background:white;
+      border-radius:18px;
+      padding:20px;
+      box-shadow:0 8px 20px rgba(0,0,0,0.08);
+      margin-bottom:22px;
+    }
+
+    .top-card h2{
+      color:#1f5c3f;
+      font-size:28px;
+      margin-bottom:8px;
+    }
+
+    .top-card p{
+      color:#66776e;
+      font-size:14px;
+      line-height:1.7;
+      margin-bottom:16px;
+    }
+
+    .toolbar{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .search-box{
+      flex:1;
+      min-width:240px;
+    }
+
+    .search-box input{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #cad8cf;
+      border-radius:12px;
+      font-size:14px;
+      outline:none;
+    }
+
+    .search-box input:focus{
+      border-color:#7ab28d;
+      box-shadow:0 0 0 3px rgba(47,143,98,0.10);
+    }
+
+    .stats{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .stat-pill{
+      background:#f3faf5;
+      color:#2f6b45;
+      border:1px solid #dcebdd;
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+    }
+
+   .sort-note{
+        margin-top:6px;
+        font-size:13px;
+        color:#1f7a4d;
+        font-weight:600;
+      }
+
+    .action-row{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .page-btn{
+      border:none;
+      border-radius:10px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-block;
+      transition:0.2s ease;
+    }
+
+    .btn-refresh{
+      background:#2e7d32;
+      color:white;
+    }
+
+    .page-btn:hover{
+      transform:translateY(-1px);
+      opacity:0.96;
+    }
+
+    .list{
+      display:grid;
+      gap:16px;
+    }
+
+    .cert-card{
+      background:white;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 8px 18px rgba(0,0,0,0.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .cert-left{
+      flex:1;
+      min-width:260px;
+    }
+
+    .cert-id{
+      font-size:22px;
+      font-weight:800;
+      color:#1f5c3f;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .latest-badge{
+      background:#eef8f1;
+      color:#2e7d32;
+      border:1px solid #cfe4d4;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .cert-meta{
+      font-size:15px;
+      line-height:1.8;
+      color:#2f3e36;
+    }
+
+    .status{
+      display:inline-block;
+      margin-top:10px;
+      background:#eef8f1;
+      color:#2e7d32;
+      border:1px solid #cfe4d4;
+      padding:6px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:0.2px;
+    }
+
+    .cert-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .btn{
+      border:none;
+      border-radius:10px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-block;
+      transition:0.2s ease;
+      color:white;
+    }
+
+    .btn-verify{
+      background:#2e7d32;
+    }
+
+    .btn-download{
+      background:#1976d2;
+    }
+
+    .btn-qr{
+      background:#1f7a8c;
+    }
+
+    .btn-delete{
+      background:#d9534f;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      opacity:0.96;
+    }
+
+    .empty{
+      background:white;
+      border-radius:16px;
+      padding:36px 20px;
+      box-shadow:0 8px 18px rgba(0,0,0,0.08);
+      text-align:center;
+      color:#6d7d73;
+      font-size:15px;
+      line-height:1.8;
+    }
+
+    .note{
+      margin-top:16px;
+      font-size:13px;
+      color:#6d7d73;
+      line-height:1.7;
+    }
+
+
+    @media(max-width:700px){
+      header h1{
+        font-size:20px;
+      }
+
+      .cert-card{
+        align-items:flex-start;
+      }
+
+      .cert-actions{
+        justify-content:flex-start;
+      }
+
+      .header-actions{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>GreenTrack – Issued Certificates</h1>
+
+    <div class="header-actions">
+      <a href="/officer_dashboard" class="back-btn">← Back to Officer Dashboard</a>
+      <button class="small-btn" onclick="location.reload()">↻ Reload Page</button>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div class="top-card">
+      <h2>📄 Certificate Records</h2>
+      <p>
+        View all generated certificates, verify certificate IDs, open QR images,
+        download PDF files, and remove certificate records.
+      </p>
+
+      <div class="toolbar">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by certificate ID or username..."
+            oninput="renderCertificates()"
+          >
+        </div>
+
+        <div class="stats">
+          <div class="stat-pill" id="totalCount">Total Records: 0</div>
+          <div class="stat-pill" id="showingCount">Showing: 0</div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="page-btn btn-refresh" onclick="refreshRecords()">Refresh Records</button>
+      </div>
+
+      <div class="note">
+      <p>This page reads certificate records directly from the Flask database.</p>
+      <p class="sort-note">Showing latest certificates first.</p>
+    </div>
+
+    </div>
+
+    <div class="list" id="certificateList"></div>
+
+  </div>
+
+  <script>
+let allCertificates = [];
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function getSafeBaseUrl(record){
+  if(record && record.baseUrl){
+    return record.baseUrl.replace(/\/$/, "");
+  }
+  return window.location.origin;
+}
+
+async function loadCertificates(){
+  try{
+    const response = await fetch("/api/certificates");
+
+    if(!response.ok){
+      throw new Error("Failed to load certificate data");
+    }
+
+    const data = await response.json();
+    allCertificates = data;
+    renderCertificates();
+
+  }catch(error){
+    document.getElementById("certificateList").innerHTML = `
+      <div class="empty">❌ Failed to load data from database.</div>
+    `;
+    document.getElementById("totalCount").textContent = "Total Records: 0";
+    document.getElementById("showingCount").textContent = "Showing: 0";
+    console.error(error);
+  }
+}
+
+function renderCertificates(){
+  const list = document.getElementById("certificateList");
+  const search = document.getElementById("searchInput").value.trim().toLowerCase();
+
+  const filtered = allCertificates.filter(record => {
+    const id = String(record.id || "").toLowerCase();
+    const name = String(record.name || "").toLowerCase();
+    return id.includes(search) || name.includes(search);
+  });
+
+  document.getElementById("totalCount").textContent = `Total Records: ${allCertificates.length}`;
+  document.getElementById("showingCount").textContent = `Showing: ${filtered.length}`;
+
+  list.innerHTML = "";
+
+  if(filtered.length === 0){
+    list.innerHTML = `<div class="empty">No certificate records found for your search.</div>`;
+    return;
+  }
+
+  filtered.forEach((record, index) => {
+    const baseUrl = getSafeBaseUrl(record);
+    const certId = String(record.id || "");
+
+    const pdfPath = `${baseUrl}/download/${encodeURIComponent(certId)}`;
+    const qrPath = `${baseUrl}/qr/${encodeURIComponent(certId)}`;
+    const verifyUrl = `${baseUrl}/verify/${encodeURIComponent(certId)}`;
+
+    const isLatest = index === 0 && search === "";
+
+    const card = document.createElement("div");
+    card.className = "cert-card";
+
+    card.innerHTML = `
+      <div class="cert-left">
+        <div class="cert-id">
+          ${escapeHtml(record.id)}
+          ${isLatest ? '<span class="latest-badge">Latest</span>' : ''}
+        </div>
+
+        <div class="cert-meta">
+          <div><strong>Name:</strong> ${escapeHtml(record.name)}</div>
+          <div><strong>Date:</strong> ${escapeHtml(record.date)}</div>
+          <div><strong>Programme:</strong> ${escapeHtml(record.programme)}</div>
+          <div><strong>Location:</strong> ${escapeHtml(record.location || "-")}</div>
+        </div>
+
+        <div class="status">Valid</div>
+      </div>
+
+      <div class="cert-actions">
+        <a class="btn btn-verify" href="${verifyUrl}" target="_blank" rel="noopener noreferrer">Verify</a>
+        <a class="btn btn-download" href="${pdfPath}" target="_blank" rel="noopener noreferrer">Download PDF</a>
+        <a class="btn btn-qr" href="${qrPath}" target="_blank" rel="noopener noreferrer">Open QR</a>
+        <button class="btn btn-delete" data-cert-id="${escapeHtml(certId)}">Delete</button>
+      </div>
+    `;
+
+    list.appendChild(card);
+
+    const deleteBtn = card.querySelector(".btn-delete");
+    deleteBtn.addEventListener("click", function(){
+      deleteCertificate(this.dataset.certId);
+    });
+  });
+}
+
+function refreshRecords(){
+  loadCertificates();
+}
+
+async function deleteCertificate(certId){
+  const confirmDelete = confirm(`Are you sure you want to delete ${certId}?`);
+  if(!confirmDelete) return;
+
+  try{
+    const response = await fetch(`/api/delete_certificate/${encodeURIComponent(certId)}`, {
+      method: "DELETE"
+    });
+
+    const result = await response.json();
+
+    if(response.ok && result.success){
+      alert("Certificate deleted successfully.");
+      loadCertificates();
+    }else{
+      alert(result.message || "Failed to delete certificate.");
+    }
+
+  }catch(error){
+    console.error(error);
+    alert("Error deleting certificate.");
+  }
+}
+
+loadCertificates();
+</script>

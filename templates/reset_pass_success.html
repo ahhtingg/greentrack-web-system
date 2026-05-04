@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  <!-- 加这里 -->
+  <title>Password Reset Successful | GreenTrack</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #3f5949, #0b1a13);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      color: #e9f5ee;
+    }
+
+    .success-box {
+      background: rgba(0, 0, 0, 0.45);
+      border-radius: 18px;
+      padding: 48px 40px;
+      text-align: center;
+      width: 90%;
+      box-shadow: 0 20px 50px rgba(187, 255, 204, 0.6);
+      z-index: 2;
+      max-width: 420px; 
+    }
+
+    .success-icon {
+      font-size: 60px;
+      margin-bottom: 15px;
+      animation: pop 0.6s ease-out;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    h1 {
+      margin: 10px 0;
+      font-size: 25px;
+      color: #7CFFB2;
+    }
+
+    p {
+      font-size: 15px;
+      opacity: 0.9;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: linear-gradient(135deg, #39c172, #2ea44f);
+      color: #fff;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(46,164,79,0.35);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(46,164,79,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="success-box">
+    <div class="success-icon">🔒✅</div>
+    <h1>Password Reset Successful</h1>
+    <p>
+      Your password has been updated successfully.<br>
+      You may now log in using your new password.
+    </p>
+    <a href="{{ url_for('login') }}" class="btn">Back to Login</a>
+  </div>
+
+</body>
+</html>

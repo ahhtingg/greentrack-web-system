@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenTrack | User Management</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Segoe UI',sans-serif;
+}
+
+:root{
+  --primary:#33715a;
+  --primary-light:#367658;
+  --bg:#eef5f1;
+  --card:#ffffff;
+  --text:#23352b;
+  --muted:#708070;
+  --line:#dce7e0;
+  --gold:#ffe08a;
+  --top5:#fff5cf;
+  --gray:#f7f9f8;
+  --shadow:0 8px 20px rgba(0,0,0,0.08);
+  --radius:16px;
+}
+
+body{
+  background:linear-gradient(135deg,#eef5f1,#dfe9e4);
+  color:var(--text);
+  min-height:100vh;
+}
+
+header{
+  background:var(--primary);
+  color:white;
+  padding:22px 28px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+header h1{
+  font-size:22px;
+  margin-bottom:4px;
+}
+
+header p{
+  font-size:13px;
+  opacity:0.9;
+}
+
+.back-btn{
+  display:inline-block;
+  text-decoration:none;
+  background:rgba(255,255,255,0.15);
+  color:white;
+  padding:10px 14px;
+  border-radius:10px;
+  font-weight:700;
+}
+
+.back-btn:hover{
+  background:rgba(255,255,255,0.25);
+}
+
+.container{
+  max-width:1350px;
+  margin:28px auto;
+  padding:0 18px 28px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:18px;
+  margin-bottom:22px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:var(--radius);
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+
+.card h3{
+  font-size:14px;
+  color:#6f7b74;
+  margin-bottom:14px;
+  font-weight:600;
+}
+
+.card p{
+  font-size:34px;
+  font-weight:800;
+  color:var(--primary);
+}
+
+.card .sub{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:8px;
+  font-weight:500;
+}
+
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.left-tools,
+.right-tools{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+input, select{
+  padding:11px 14px;
+  border:1px solid #cfd9d3;
+  border-radius:12px;
+  background:white;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus, select:focus{
+  border-color:#80b396;
+  box-shadow:0 0 0 3px rgba(47,143,98,0.12);
+}
+
+.table-card{
+  background:white;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.table-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding:18px 20px;
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+
+.table-header h2{
+  font-size:20px;
+  color:var(--primary);
+}
+
+.table-header p{
+  font-size:14px;
+  color:#5f6f67;
+}
+
+.table-wrapper{
+  overflow-x:auto;
+}
+
+table{
+  min-width:1180px;
+  width:100%;
+  border-collapse:collapse;
+}
+
+th, td{
+  padding:12px 8px;
+  text-align:center;
+  border-bottom:1px solid #edf2ee;
+  font-size:13.5px;
+}
+
+th{
+  background:#429d72;
+  color:white;
+  font-weight:700;
+  position:sticky;
+  top:0;
+}
+
+th:nth-child(n+3):nth-child(-n+14),
+td:nth-child(n+3):nth-child(-n+14){
+  width:55px;
+  min-width:55px;
+}
+
+th:nth-child(1),
+td:nth-child(1){
+  width:40px;
+}
+
+th:nth-child(2),
+td:nth-child(2){
+  width:110px;
+}
+
+th:nth-child(15),
+td:nth-child(15){
+  width:90px;
+}
+
+th:nth-child(16),
+td:nth-child(16),
+th:nth-child(17),
+td:nth-child(17){
+  width:150px;
+}
+
+th:nth-child(18),
+td:nth-child(18){
+  width:95px;
+}
+
+tbody tr:nth-child(even) td{
+  background:#fafcfb;
+}
+
+tbody tr:hover td{
+  background:#f3f8f4;
+}
+
+tr.top1 td{
+  background:#e9d18d !important;
+  font-weight:700;
+}
+
+tr.top2 td{
+  background:#cadc9c !important;
+  font-weight:700;
+}
+
+tr.top3 td{
+  background:#f4d2b6 !important;
+  font-weight:700;
+}
+
+tr.top5 td{
+  background:#fff5cf !important;
+  font-weight:600;
+}
+
+.total{
+  color:#178252;
+  font-weight:800;
+}
+
+.username-cell{
+  font-weight:700;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.online{
+  background:#e7f7ec;
+  color:#1d7c49;
+}
+
+.offline{
+  background:#f0f2f1;
+  color:#6c7a72;
+}
+
+.empty{
+  padding:40px 20px;
+  text-align:center;
+  color:var(--muted);
+  font-size:15px;
+}
+
+.footer-note{
+  margin-top:30px;
+  text-align:center;
+  font-size:14px;
+  font-weight:500;
+  color:#6b7f73;
+  opacity:0.9;
+  letter-spacing:0.2px;
+}
+
+@media(max-width:1100px){
+  .cards{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+@media(max-width:700px){
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:20px;
+  }
+
+  .container{
+    padding:0 12px 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>GreenTrack – User Management</h1>
+    <p>Monitor registered resident users, recycling activity, and yearly contribution records.</p>
+  </div>
+  <a href="/officer_dashboard" class="back-btn">← Back to Officer Dashboard</a>
+</header>
+
+<div class="container">
+
+  <div class="cards">
+    <div class="card">
+      <h3>Total Registered Users</h3>
+      <p id="totalUsers">0</p>
+      <div class="sub">All resident users stored in the system</div>
+    </div>
+
+    <div class="card">
+      <h3>Active Users</h3>
+      <p id="activeUsers">0</p>
+      <div class="sub">Users with recycling activity in selected year</div>
+    </div>
+
+    <div class="card">
+      <h3>Top Recycler</h3>
+      <p id="topUser">-</p>
+      <div class="sub" id="topUserWeight">No data available</div>
+    </div>
+
+    <div class="card">
+      <h3>Selected Year</h3>
+      <p id="currentYearCard">-</p>
+      <div class="sub">Current reporting year</div>
+    </div>
+  </div>
+
+  <div class="top-bar">
+    <div class="left-tools">
+      <input type="text" id="search" placeholder="Search username..." onkeyup="renderUserTable()">
+    </div>
+
+    <div class="right-tools">
+      <select id="yearSelect" onchange="renderUserTable()"></select>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div class="table-header">
+      <div>
+        <h2>User Records Overview</h2>
+        <p>Monthly recycling weight, total yearly contribution, and account status overview.</p>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Jan</th>
+            <th>Feb</th>
+            <th>Mar</th>
+            <th>Apr</th>
+            <th>May</th>
+            <th>Jun</th>
+            <th>Jul</th>
+            <th>Aug</th>
+            <th>Sep</th>
+            <th>Oct</th>
+            <th>Nov</th>
+            <th>Dec</th>
+            <th>Total</th>
+            <th>Last Login</th>
+            <th>Last Logout</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+
+    <div id="emptyState" class="empty" style="display:none;">
+      No resident users found in the database yet.
+    </div>
+  </div>
+
+  <div class="footer-note">
+    GreenTrack — A Web-Based Community Recycling Tracking & Ranking System
+  </div>
+</div>
+
+<script>
+const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let allUsers = [];
+let allYears = [];
+
+function getAvailableYears(users, apiYears){
+  if(apiYears && apiYears.length > 0){
+    return [...apiYears].sort();
+  }
+
+  const years = new Set();
+
+  users.forEach(user => {
+    if(user.data){
+      Object.keys(user.data).forEach(year => years.add(year));
+    }
+  });
+
+  if(years.size === 0){
+    years.add(new Date().getFullYear().toString());
+  }
+
+  return Array.from(years).sort();
+}
+
+function populateYearSelect(){
+  const yearSelect = document.getElementById("yearSelect");
+  const existingValue = yearSelect.value;
+  const years = getAvailableYears(allUsers, allYears);
+
+  yearSelect.innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join("");
+
+  if(years.includes(existingValue)){
+    yearSelect.value = existingValue;
+  } else {
+    yearSelect.value = years[years.length - 1];
+  }
+}
+
+function getMonthlyWeights(user, year){
+  const monthlyData = {};
+  months.forEach(month => monthlyData[month] = 0);
+
+  if(user.data && user.data[year]){
+    months.forEach(month => {
+      monthlyData[month] = parseFloat(user.data[year][month] || 0);
+    });
+  }
+
+  return monthlyData;
+}
+
+function calculateTotal(monthlyData){
+  return months.reduce((sum, month) => sum + (parseFloat(monthlyData[month]) || 0), 0);
+}
+
+function formatDate(value){
+  if(!value || value === "-") return "-";
+  return value;
+}
+
+function getStatusBadge(user){
+  if(user.isLoggedIn){
+    return `<span class="badge online">🟢 Online</span>`;
+  }
+  return `<span class="badge offline">⚪ Offline</span>`;
+}
+
+function renderUserTable(){
+  const tbody = document.getElementById("tableBody");
+  const emptyState = document.getElementById("emptyState");
+  const search = document.getElementById("search").value.trim().toLowerCase();
+  const year = document.getElementById("yearSelect").value;
+
+  document.getElementById("currentYearCard").innerText = year;
+
+  let rankedUsers = allUsers.map(user => {
+    const monthlyData = getMonthlyWeights(user, year);
+    const total = calculateTotal(monthlyData);
+
+    return {
+      ...user,
+      monthlyData,
+      total
+    };
+  });
+
+  rankedUsers.sort((a, b) => b.total - a.total);
+
+  const filteredUsers = rankedUsers.filter(user =>
+    (user.username || "").toLowerCase().includes(search)
+  );
+
+  document.getElementById("totalUsers").innerText = allUsers.length;
+  document.getElementById("activeUsers").innerText = rankedUsers.filter(user => user.total > 0).length;
+
+  if(rankedUsers.length > 0 && rankedUsers[0].total > 0){
+    document.getElementById("topUser").innerText = rankedUsers[0].username;
+    document.getElementById("topUserWeight").innerText = `${rankedUsers[0].total.toFixed(2)} kg in ${year}`;
+  } else {
+    document.getElementById("topUser").innerText = "-";
+    document.getElementById("topUserWeight").innerText = "No recycling data available";
+  }
+
+  tbody.innerHTML = "";
+
+  if(filteredUsers.length === 0){
+    emptyState.style.display = "block";
+    return;
+  } else {
+    emptyState.style.display = "none";
+  }
+
+  filteredUsers.forEach((user, index) => {
+    let rowClass = "";
+    if(index === 0 && user.total > 0){
+      rowClass = "top1";
+    } else if(index === 1 && user.total > 0){
+      rowClass = "top2";
+    } else if(index === 2 && user.total > 0){
+      rowClass = "top3";
+    } else if(index < 5 && user.total > 0){
+      rowClass = "top5";
+    }
+
+    const row = `
+      <tr class="${rowClass}">
+        <td>${index + 1}</td>
+        <td class="username-cell">${user.username || "-"} ${index === 0 && user.total > 0 ? "🏆" : ""}</td>
+        <td>${user.monthlyData.Jan.toFixed(2)}</td>
+        <td>${user.monthlyData.Feb.toFixed(2)}</td>
+        <td>${user.monthlyData.Mar.toFixed(2)}</td>
+        <td>${user.monthlyData.Apr.toFixed(2)}</td>
+        <td>${user.monthlyData.May.toFixed(2)}</td>
+        <td>${user.monthlyData.Jun.toFixed(2)}</td>
+        <td>${user.monthlyData.Jul.toFixed(2)}</td>
+        <td>${user.monthlyData.Aug.toFixed(2)}</td>
+        <td>${user.monthlyData.Sep.toFixed(2)}</td>
+        <td>${user.monthlyData.Oct.toFixed(2)}</td>
+        <td>${user.monthlyData.Nov.toFixed(2)}</td>
+        <td>${user.monthlyData.Dec.toFixed(2)}</td>
+        <td class="total">${user.total.toFixed(2)} kg</td>
+        <td>${formatDate(user.lastLogin)}</td>
+        <td>${formatDate(user.lastLogout)}</td>
+        <td>${getStatusBadge(user)}</td>
+      </tr>
+    `;
+    tbody.innerHTML += row;
+  });
+}
+
+async function loadUserListData(){
+  try{
+    const response = await fetch("/api/user_list_data");
+    const data = await response.json();
+
+    if(!data.success){
+      alert(data.message || "Failed to load user list.");
+      return;
+    }
+
+    allUsers = data.users || [];
+    allYears = data.years || [];
+
+    populateYearSelect();
+    renderUserTable();
+
+  }catch(error){
+    console.error("Failed to load user list:", error);
+    alert("Failed to load user list.");
+  }
+}
+
+loadUserListData();
+</script>
+
+</body>
+</html>

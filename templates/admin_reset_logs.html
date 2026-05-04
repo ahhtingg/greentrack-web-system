@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Reset Logs</title>
+
+<style>
+
+body{
+  font-family:Arial;
+  background:#eef5f1;
+  padding:40px;
+}
+
+/* Back */
+.back-btn{
+  display:inline-block;
+  margin-bottom:20px;
+  text-decoration:none;
+  color:#67966a;
+  font-weight:bold;
+  font-size:14px;
+}
+
+/* Title */
+h2{
+  color:#828041;
+  margin-bottom:20px;
+}
+
+/* Table */
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  border-radius:10px;
+  overflow:hidden;
+  table-layout:fixed;   /* ⭐关键：让列整齐 */
+}
+
+/* Header */
+th{
+  background:#5b795d;
+  color:white;
+  padding:14px;
+  font-size:16px;
+}
+
+/* Cells */
+td{
+  padding:13px;
+  border-bottom:1px solid #ddd;
+  font-size:15px;
+  word-break:break-word;
+}
+
+/* ⭐对齐优化 */
+td:nth-child(2), th:nth-child(2){
+  text-align:center;   /* Code */
+}
+
+td:nth-child(3), th:nth-child(3){
+  text-align:center;   /* Time */
+}
+
+td:nth-child(4), th:nth-child(4){
+  text-align:center;   /* Action */
+}
+
+/* Zebra */
+tr:nth-child(even){
+  background:#fafafa;
+}
+
+/* Hover */
+tr:hover{
+  background:#f1f7f3;
+}
+
+/* Delete button */
+.delete-btn{
+  color:red;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+.delete-btn:hover{
+  text-decoration:underline;
+}
+
+/* Footer */
+.footer-note{
+  text-align:center;
+  margin-top:28px;
+  font-size:19px;
+  color:#5a6861;
+}
+
+</style>
+</head>
+
+<body>
+
+<a href="/superadmin_dashboard" class="back-btn">
+  ← Back
+</a>
+
+<h2>Reset Password Logs (Admin)</h2>
+
+<table>
+
+<!-- ⭐固定列宽（重点） -->
+<colgroup>
+  <col style="width:45%">
+  <col style="width:15%">
+  <col style="width:25%">
+  <col style="width:15%">
+</colgroup>
+
+<tr>
+  <th>Email</th>
+  <th>Code</th>
+  <th>Time</th>
+  <th>Action</th>
+</tr>
+
+{% for log in logs %}
+<tr>
+  <td>{{ log.email }}</td>
+  <td>{{ log.code }}</td>
+  <td>{{ log.requested_at }}</td>
+
+  <td>
+    <a href="/delete_reset_log/{{ log.id }}" 
+       onclick="return confirm('Delete this log?')" 
+       class="delete-btn">
+       Delete
+    </a>
+  </td>
+</tr>
+{% endfor %}
+
+</table>
+
+<div class="footer-note">
+  GreenTrack ♻ A Web-Based Community Recycling Tracking & Ranking System
+</div>
+
+</body>
+</html>

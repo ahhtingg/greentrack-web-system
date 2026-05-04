@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #475d4d, #8aa899);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #1f3d2b;
+}
+
+.card {
+    width: 700px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px 40px 30px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+}
+
+.card h2 {
+    text-align: center;
+    margin-bottom: 6px;
+    color: #1f5a2e;
+}
+
+.subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #537861;
+    margin-bottom: 24px;
+}
+
+label {
+    font-size: 13px;
+    color: #355f48;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid #5aa97a;
+    margin-bottom: 16px;
+    background: #f7faf8;
+    color: #1f3d2b;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+/* ⭐ 当显示密码时，给一个明显视觉差 */
+input.showing {
+    background: #ffffff;
+    border-color: #3fa66c;
+}
+
+input::placeholder {
+    color: #416f56;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    margin-bottom: 18px;
+    color: #4f6f5c;
+}
+
+.checkbox input {
+    accent-color: #3fa66c;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #446f4e, #539a7f);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.error {
+    font-size: 13px;
+    color: #d9534f;
+    margin: 6px 0 10px;
+    text-align: center;
+    display: none;
+}
+
+.password-rules {
+    list-style: none;
+    padding-left: 0;
+    margin-top: -8px;
+    margin-bottom: 16px;
+    font-size: 13px;
+}
+
+.strength-text{
+    display:inline-block;
+    font-size:13px;
+    font-weight:700;
+    margin-top:-6px;
+    margin-bottom:12px;
+    padding:6px 12px;
+    border-radius:999px;
+    background:#eef8f1;
+    color:#6b7f73;
+}
+
+.password-rules li {
+    color: #d9534f;
+    margin-bottom: 4px;
+}
+
+.password-rules li.valid {
+    color: #2e8b57;
+}
+.footer {
+    margin-top: 14px;       /* 跟 Sign Up 拉开一点 */
+    text-align: center;
+    font-size: 13px;
+    color: #6b7f73;         /* 柔和灰绿 */
+}
+
+.footer a {
+    color: #ff3b3b;         /* 跟 Sign Up 按钮同色 */
+    text-decoration: none;  /* 去掉蓝色下划线 */
+    font-weight: 600;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+/* ✅ 密码匹配成功提示 */
+.error.success {
+    color: #2e8b57;      /* 青绿色 */
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.forgot {
+    margin-top: -8px;      /* 贴近 Confirm Password */
+    margin-bottom: 12px;   /* 跟 Show Password 拉开 */
+    text-align: right;     /* 放右边，标准做法 */
+    font-size: 13px;
+}
+
+.forgot a {
+    color: #3fa66c;        /* 跟系统绿色一致 */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot a:hover {
+    text-decoration: underline;
+}
+
+.back-home-btn{
+  display:block;              /* ⭐ 改这里 */
+  margin:0 auto 18px;         /* ⭐ 自动左右居中 */
+  padding:8px 14px;
+  font-size:13px;
+  color:#2f7a57;
+  background:#e6f4ec;
+  border:1px solid #cfe4d4;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:600;
+  width:fit-content;          /* ⭐ 让按钮不会拉满 */
+  transition:0.25s ease;
+}
+
+.back-home-btn:hover{
+  background:#d6efe3;
+  transform:translateY(-1px);
+}
+
+
+</style>
+</head>
+
+<body>
+<div class="card">
+
+<a href="/" class="back-home-btn">
+  🏠 Back to Home
+</a>
+
+<h2>Create Account</h2>
+
+<div class="subtitle">Sign up to get started.</div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="error" style="display:block; margin-bottom:14px;">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<form method="POST" action="/register" onsubmit="return validateRegisterForm()">
+    <label>Username</label>
+    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+
+    <label>Email</label>
+    <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+    <label>Password</label>
+    <input type="password" id="password" name="password" placeholder="********" required>
+
+    <div id="strengthText" class="strength-text">Password strength: -</div>
+
+    <ul class="password-rules">
+        <li id="rule-length">Minimum 8 characters</li>
+        <li id="rule-upper">At least 1 uppercase letter</li>
+        <li id="rule-lower">At least 1 lowercase letter</li>
+        <li id="rule-number">At least 1 number</li>
+        <li id="rule-symbol">At least 1 special symbol (# $ % & * _ + /)</li>
+    </ul>
+
+    <label>Confirm Password</label>
+    <input type="password" id="confirmPassword" name="confirm_password" placeholder="********" required>
+
+
+    <div class="checkbox">
+        <input type="checkbox" id="showPassword">
+        <label for="showPassword">Show Password</label>
+    </div>
+
+    <div class="error" id="errorMsg">Passwords do not match</div>
+
+    <button type="submit" id="signUpBtn">Sign Up</button>
+</form>
+<div class="footer">
+    Already have an account?
+    <a href="/login">Sign In</a>
+</div>
+
+<script>
+const signUpBtn = document.getElementById("signUpBtn");
+const passwordInput = document.getElementById("password");
+const confirmPasswordInput = document.getElementById("confirmPassword");
+const showPasswordCheckbox = document.getElementById("showPassword");
+const errorMsg = document.getElementById("errorMsg");
+const strengthText = document.getElementById("strengthText");
+
+showPasswordCheckbox.addEventListener("change", () => {
+    const show = showPasswordCheckbox.checked;
+    const type = show ? "text" : "password";
+
+    passwordInput.type = type;
+    confirmPasswordInput.type = type;
+
+    passwordInput.classList.toggle("showing", show);
+    confirmPasswordInput.classList.toggle("showing", show);
+});
+
+function isPasswordValid() {
+    const v = passwordInput.value;
+
+    return (
+        v.length >= 8 &&
+        /[A-Z]/.test(v) &&
+        /[a-z]/.test(v) &&
+        /[0-9]/.test(v) &&
+        /[#\$%&\*_+\-/]/.test(v)
+    );
+}
+
+function updatePasswordStrength() {
+    const v = passwordInput.value;
+    let score = 0;
+
+    if (v.length >= 8) score++;
+    if (/[A-Z]/.test(v)) score++;
+    if (/[a-z]/.test(v)) score++;
+    if (/[0-9]/.test(v)) score++;
+    if (/[#\$%&\*_+\-/]/.test(v)) score++;
+
+    if (v.length === 0) {
+        strengthText.textContent = "Password strength: -";
+        strengthText.style.color = "#6b7f73";
+        strengthText.style.background = "#eef8f1";
+    } else if (score <= 2) {
+        strengthText.textContent = "Password strength: Weak";
+        strengthText.style.color = "#d9534f";
+        strengthText.style.background = "#fdecec";
+    } else if (score <= 4) {
+        strengthText.textContent = "Password strength: Medium";
+        strengthText.style.color = "#d88a00";
+        strengthText.style.background = "#fff4dd";
+    } else {
+        strengthText.textContent = "Password strength: Strong";
+        strengthText.style.color = "#2e8b57";
+        strengthText.style.background = "#e6f4ec";
+    }
+}
+
+function updateSignUpState() {
+    const passwordOk = isPasswordValid();
+    const matchOk = passwordInput.value === confirmPasswordInput.value;
+
+    if (passwordOk && matchOk) {
+        signUpBtn.disabled = false;
+        errorMsg.style.display = "none";
+    } else {
+        signUpBtn.disabled = true;
+    }
+}
+
+confirmPasswordInput.addEventListener("input", () => {
+
+    // 还没输入 confirm password → 不显示任何提示
+    if (confirmPasswordInput.value === "") {
+        errorMsg.style.display = "none";
+        errorMsg.classList.remove("success");
+        return;
+    }
+
+    // 两个密码一样
+    if (confirmPasswordInput.value === passwordInput.value) {
+        errorMsg.textContent = "Passwords match";
+        errorMsg.classList.add("success");   // ✅ 青绿色
+        errorMsg.style.display = "block";
+    } 
+    // 两个密码不一样
+    else {
+        errorMsg.textContent = "Passwords do not match";
+        errorMsg.classList.remove("success"); // ❌ 红色
+        errorMsg.style.display = "block";
+    }
+
+    updateSignUpState(); // ⭐⭐
+});
+
+
+const passwordRules = {
+    length: document.getElementById("rule-length"),
+    upper: document.getElementById("rule-upper"),
+    lower: document.getElementById("rule-lower"),
+    number: document.getElementById("rule-number"),
+    symbol: document.getElementById("rule-symbol")
+};
+
+passwordInput.addEventListener("input", () => {
+    const v = passwordInput.value;
+
+    toggle(passwordRules.length, v.length >= 8);
+    toggle(passwordRules.upper, /[A-Z]/.test(v));
+    toggle(passwordRules.lower, /[a-z]/.test(v));
+    toggle(passwordRules.number, /[0-9]/.test(v));
+    toggle(passwordRules.symbol, /[#\$%&\*_+\-/]/.test(v));
+    updatePasswordStrength();
+    updateSignUpState();
+});
+
+function toggle(el, ok) {
+    el.classList.toggle("valid", ok);
+}
+
+function validateRegisterForm() {
+    if (!isPasswordValid()) {
+        errorMsg.textContent = "Please meet all password requirements";
+        errorMsg.classList.remove("success");
+        errorMsg.style.display = "block";
+        return false;
+    }
+
+    if (passwordInput.value !== confirmPasswordInput.value) {
+        errorMsg.textContent = "Passwords do not match";
+        errorMsg.classList.remove("success");
+        errorMsg.style.display = "block";
+        return false;
+    }
+
+    errorMsg.style.display = "none";
+    return true;
+}
+
+updatePasswordStrength();
+updateSignUpState();
+</script>
+</body>
+</html>

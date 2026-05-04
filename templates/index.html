@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GreenTrack | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* ===== Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: #b8d6b8;
+      color: #1f3d2b;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .hero {
+    margin-top: 0;
+}
+
+    /* ===== Navbar ===== */
+    header{
+        background: linear-gradient(135deg,#8cb09b,#6f9a83);
+
+        height:90px; /* ⭐ 更高 */
+        display:flex;
+        align-items:center;
+        transition: background 0.3s ease;
+        padding:0 60px; /* ⭐ 左右更宽 */
+
+        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    } 
+
+    .brand {
+       display:flex;
+      align-items:center;
+
+      margin-right:40px; /* ⭐ 控制和菜单距离 */
+    }
+
+    .brand img{
+       height: 100px;
+      width: auto;
+      object-fit:contain;
+        margin-left:-40px;
+    }
+
+    .brand:visited {
+      color: rgba(255, 255, 255, 0.91);
+    }
+
+    nav a {
+        display:block;
+
+        padding:12px 18px;
+        border-radius:12px;
+
+        background:#f4f6f5;
+        border:1px solid #d6e2d9;
+
+        color:#1f3d2b;
+        text-decoration:none;
+        font-size:15px;
+
+        transition: all 0.25s ease;
+
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+   /* hover更smooth */
+nav a:hover {
+  background: linear-gradient(135deg,#7fbf9b,#5f9f7c);
+  color:white;
+
+  transform: translateX(6px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+
+    /* login按钮更突出 */
+.login-btn{
+  background: linear-gradient(135deg,#ffffff,#e9f5ee);
+  font-weight:600;
+
+  border:1px solid #cfe3d6;
+}
+
+.login-btn:hover{
+  background: linear-gradient(135deg,#4caf50,#3e8f47);
+  color:white;
+}
+
+/* ===== Hero（更高级渐变） ===== */
+.hero {
+  background: linear-gradient(135deg,#d9efe0,#c8e6d3);
+  text-align:center;
+  border-bottom:4px solid #8fbfa1;
+  padding:110px 20px;
+}
+
+.hero h1 {
+  font-size:56px;
+  font-weight:800;
+  letter-spacing:1px;
+  color:#173d28;
+  text-shadow:0 4px 12px rgba(0,0,0,0.12);
+}
+
+.hero p {
+  font-size:22px;
+  color:#2e5d44;
+  margin-top:14px;
+  font-weight:600;
+  letter-spacing:0.4px;
+  position:relative;
+}
+
+.hero p::before{
+  content:"";
+  display:block;
+
+  width:190px;
+  height:12px;
+  margin:0 auto -24px;
+
+  background:rgba(76,175,80,0.35);
+  filter:blur(14px);
+  border-radius:20px;
+}
+
+.hero p::after{
+  content:"";
+  display:block;
+
+  width:160px;
+  height:4px;
+  margin:18px auto 0;
+
+  background:linear-gradient(
+    90deg,
+    #2e7d32,
+    #66bb6a,
+    #a5d6a7,
+    #66bb6a,
+    #2e7d32
+  );
+
+  background-size:300% 100%;
+  border-radius:999px;
+  opacity:0.85; /* ⭐ 降低一点强度 */
+  animation: greenFlow 6s linear infinite;
+  box-shadow:0 0 14px rgba(76,175,80,0.45);
+}
+
+@keyframes greenFlow{
+  0%{
+    background-position:0% 50%;
+  }
+  100%{
+    background-position:300% 50%;
+  }
+}
+
+/* ===== Section ===== */
+section {
+  padding:80px 80px;
+  text-align:center;
+}
+
+/* 标题更高级 */
+section h2 {
+  font-size:34px;
+  margin-bottom:25px;
+  color:#1f5a2e;
+}
+
+/* ===== About GreenTrack（重点升级🔥） ===== */
+.intro {
+  background: linear-gradient(135deg,#eaf4ee,#dcefe3);
+}
+
+.intro-box{
+  max-width:850px;
+  margin:auto;
+
+  background:white;
+  padding:40px;
+
+  border-radius:20px;
+
+  box-shadow:0 20px 50px rgba(0,0,0,0.12);
+
+  transition:0.3s;
+}
+
+.intro-box:hover{
+  transform:translateY(-6px);
+}
+
+/* ===== Objectives（分层+高级卡片🔥） ===== */
+.objectives-section {
+  background: linear-gradient(180deg,#f4faf6,#eaf4ee);
+  padding:65px 80px;
+}
+
+.objectives {
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:28px;
+  max-width:1400px;
+  margin:40px auto 0;
+  align-items:stretch;
+}
+
+.objective-card {
+  background: linear-gradient(180deg,#ffffff,#f8fcfa);
+
+  min-height:260px;
+  padding:30px 28px;
+
+  border-radius:22px;
+
+  /* ⭐ 核心：温柔边框 */
+border:2px solid #b7dbc5;
+
+  /* ⭐ 内发光 느낌 */
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.06),
+    inset 0 0 0 1px rgba(255,255,255,0.6);
+
+  text-align:left;
+
+  transition: all 0.3s ease;
+}
+
+.objective-card:hover {
+  transform: translateY(-8px);
+  border-color:#4caf50;
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.12),
+    0 0 0 3px rgba(102,187,106,0.16);
+}
+
+.objective-card h3 {
+  margin-top:5px;
+  min-height:58px;
+  margin-bottom:14px;
+
+  font-size:18px;
+  font-weight:700;
+
+  color:#103b26;
+}
+
+.objective-card p {
+  font-size:15px;
+  line-height:1.75;
+  color:#263b30;
+}
+
+@media(max-width:1100px){
+  .objectives{
+    grid-template-columns:repeat(2, 1fr);
+  }
+}
+
+@media(max-width:700px){
+  .objectives{
+    grid-template-columns:1fr;
+  }
+}
+
+
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* ===== Roles（高级角色选择卡片） ===== */
+.roles {
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+  margin-top:0;
+}
+
+.roles-subtitle{
+  font-size:16px;
+  font-weight:500;
+  color:#3e5f4c;
+  margin-top:8px;
+  margin-bottom:30px;
+  letter-spacing:0.3px;
+}
+
+.role-card{
+  position:relative;
+  background:white;
+  padding:32px 28px;
+  border-radius:20px;
+  width:240px;
+  min-height:200px;
+  text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,0.12);
+  border:1px solid rgba(0,0,0,0.05);
+  transition:0.3s;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;   /* ⭐ 核心 */
+}
+
+.role-card:hover{
+  transform:translateY(-10px) scale(1.03);
+  box-shadow:0 25px 60px rgba(0,0,0,0.18);
+}
+
+.highlight{
+  border:2px solid #4caf50;
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.12),
+    0 0 0 4px rgba(76,175,80,0.15);
+
+  animation: glowPulse 2.5s infinite;
+}
+
+@keyframes glowPulse{
+  0%{
+    box-shadow:
+      0 15px 40px rgba(0,0,0,0.12),
+      0 0 0 0 rgba(76,175,80,0.3);
+  }
+
+  70%{
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.18),
+      0 0 0 10px rgba(76,175,80,0);
+  }
+
+  100%{
+    box-shadow:
+      0 15px 40px rgba(0,0,0,0.12),
+      0 0 0 0 rgba(76,175,80,0);
+  }
+}
+
+.badge{
+  position:absolute;
+  top:-12px;        /* ⭐ 往外一点 */
+  left:16px;        /* ⭐ 左上角 */
+
+  background:linear-gradient(135deg,#4caf50,#2e7d32);
+  color:white;
+
+  padding:6px 14px;
+  font-size:11px;
+  font-weight:700;
+
+  border-radius:20px;
+
+  box-shadow:0 6px 15px rgba(0,0,0,0.18);
+}
+
+.role-card h3{
+  font-size:20px;
+  font-weight:700;      /* ⭐ 加粗一点 */
+  letter-spacing:0.3px; /* ⭐ 高级感 */
+  color:#1f3d2b;
+}
+
+.role-desc{
+  font-size:14px;
+  color:#4f6f5d;
+  margin-bottom:14px;
+  font-weight:500;   /* ⭐ 微加粗 */
+}
+
+
+.role-btn{
+  display:inline-block;
+  margin-top:auto;
+  padding:12px 18px;
+  border-radius:12px;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+  transition:0.25s ease;
+}
+
+.role-desc{
+  min-height:60px;   /* ⭐ 控制内容高度 */
+}
+
+.role-btn:hover{
+   transform:translateY(-2px) scale(1.02);
+  box-shadow:0 10px 22px rgba(0,0,0,0.16);
+}
+
+.resident-btn{ background:#4caf50; }
+.merchant-btn{ background:#ffa726; }
+.officer-btn{ background:#2196f3; }
+
+
+
+nav{
+  display:flex;
+  align-items:center;
+  gap:22px;
+
+  margin-left:auto;   /* 把菜单整体往左移动 */
+}
+
+    
+
+
+.restricted {
+  color: #c62828;
+  font-size: 13px;
+}
+
+    
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+
+ .about-section {
+  padding: 100px 80px;
+  text-align: center;
+  background: linear-gradient(135deg, #5f8f73, #3e6f57);
+  color: white;
+}
+
+.about-section h2 {
+  color: white;
+  font-size: 34px;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 40px;
+}
+
+/* 卡片居中更高级 */
+.about-card {
+  max-width: 980px;
+  margin: auto;
+
+  display: flex;
+  gap: 50px;
+  align-items: center;
+
+  background: rgba(255,255,255,0.12);
+  padding: 55px;
+  border-radius: 28px;
+
+  border: 1px solid rgba(255,255,255,0.18);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 28px 70px rgba(0,0,0,0.28),
+    inset 0 0 0 1px rgba(255,255,255,0.08);
+
+  transition: 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow:
+    0 35px 80px rgba(0,0,0,0.35),
+    inset 0 0 0 1px rgba(255,255,255,0.12);
+}
+
+.about-card h3 {
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:0.5px;
+  color:#ffffff;
+  text-shadow:0 3px 10px rgba(0,0,0,0.2);
+}
+
+.about-card::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.2),
+    transparent
+  );
+  transition:0.6s;
+}
+
+.about-card:hover::before{
+  left:100%;
+}
+
+/* 左边头像 */
+.avatar {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #8ce99a, #37b24d);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 46px;
+  color: white;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.35),
+    0 0 0 8px rgba(255,255,255,0.08);
+}
+
+.avatar:hover{
+  transform: scale(1.08) rotate(5deg);
+  box-shadow:
+    0 20px 45px rgba(0,0,0,0.4),
+    0 0 0 10px rgba(255,255,255,0.1);
+}
+
+/* 右边 */
+.about-right {
+  text-align: left;
+}
+
+.about-right h3 {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+/* 描述 */
+.about-desc {
+  margin: 14px 0;
+  line-height: 1.7;
+}
+
+/* 技能标签（更高级） */
+.skills span {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 6px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.14);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===== About GreenTrack 分层优化 ===== */
+.intro{
+  background:linear-gradient(135deg,#eef8f2,#e3f2e8);
+  padding:95px 80px;
+}
+
+.intro-wrapper{
+  max-width:1150px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.3fr 0.9fr;
+  gap:40px;
+  align-items:center;
+}
+
+.intro-left{
+  text-align:left;
+  background:rgba(255,255,255,0.78);
+  border:1px solid rgba(94,151,115,0.18);
+  border-radius:26px;
+  padding:42px;
+  box-shadow:0 22px 55px rgba(0,0,0,0.10);
+}
+
+.section-badge{
+  display:inline-block;
+  padding:8px 16px;
+  border-radius:999px;
+  background:#e3f6ea;
+  color:#1f6b4a;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+.intro-left h2{
+  font-size:36px;
+  margin-bottom:18px;
+  color:#0f4f2d;
+}
+
+.intro-left p{
+  font-size:16px;
+  line-height:1.85;
+  color:#263b30;
+}
+
+.intro-right{
+  display:grid;
+  gap:18px;
+}
+
+.feature-mini-card{
+  background:white;
+  border:1px solid #d7eadf;
+  border-radius:20px;
+  padding:22px 24px;
+  text-align:left;
+  box-shadow:0 12px 30px rgba(0,0,0,0.08);
+  transition:0.25s ease;
+}
+
+.feature-mini-card:hover{
+  transform:translateX(8px);
+  border-color:#65b982;
+}
+
+.feature-mini-card strong{
+  display:block;
+  color:#0f4f2d;
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.feature-mini-card span{
+  color:#52685b;
+  font-size:14px;
+}
+
+.events-section{
+  padding:65px 20px 35px;
+  background:#b8d6b8;
+}
+
+#eventList{
+  max-width:900px;
+  margin:30px auto 0;
+}
+
+.roles-section{
+  padding:30px 80px 50px;
+  background:#b8d6b8;
+}
+
+.roles-section h2{
+  margin-bottom:28px;
+}
+
+.roles{
+  margin-top:0;
+}
+
+@media(max-width:900px){
+  .intro-wrapper{
+    grid-template-columns:1fr;
+  }
+
+  .intro-left{
+    text-align:center;
+  }
+}
+
+footer {
+  background: linear-gradient(135deg,#6f9a83,#5a8d72);
+  color: white;
+
+  text-align: center;
+  padding: 25px;
+  margin-top:30px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+}
+
+.event-card {
+  background: white;
+  padding: 22px;
+  margin-bottom: 25px;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+
+  text-align: center;
+
+  border: 2px solid #f0a500; /* 橙色边 */
+}
+
+.next-event{
+  background:linear-gradient(135deg,#fff7dd,#ffffff);
+  border:2px solid #f0a500;
+}
+
+.past-event{
+  opacity:0.72;
+  border:1px solid #d8e2dc;
+}
+
+.event-card a{
+  color:#2e7d32;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.event-card a:hover{
+  text-decoration:underline;
+}
+
+.countdown{
+  margin-top:10px;
+  color:#e65100;
+  font-weight:800;
+}
+
+.event-card h3 {
+  color: #2e7d32;
+  margin-bottom: 8px;
+}
+
+.event-card p {
+  margin: 6px 0;
+}
+
+
+.reveal{
+  opacity:0;
+  transform:translateY(35px);
+  transition:all 0.8s ease;
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.feature-mini-card{
+  transition: all 0.25s ease;
+}
+
+.feature-mini-card:hover{
+  transform: translateX(8px) scale(1.02);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.intro-left{
+  transition: all 0.3s ease;
+}
+
+.intro-left:hover{
+  transform: translateY(-5px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.15);
+}
+
+.event-card{
+  transition: all 0.3s ease;
+}
+
+.event-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+}
+
+.next-event{
+  background: linear-gradient(135deg,#fff7e6,#ffecc8);
+  border: none;
+  box-shadow: 0 20px 50px rgba(255,165,0,0.25);
+}
+
+.event-title{
+  font-size: 30px;
+}
+
+.event-sub{
+  display:block;
+  font-size:14px;
+  color:#5c7a6c;
+  margin-top:6px;
+}
+
+.other-event{
+  border:none;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.next-event{
+  transform: scale(1.02);
+}
+
+/* ===== 手机优化 ===== */
+@media (max-width:768px){
+
+  nav{
+    display:none;
+    flex-direction:column;
+
+    position:absolute;
+    top:90px;
+    right:20px;
+
+    background:white;
+    padding:20px;
+    border-radius:12px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  nav.show{
+    display:flex;
+  }
+
+  .menu-toggle{
+    display:block;
+    margin-left:auto;
+    font-size:28px;
+  }
+
+}
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a class="brand" href="/">
+    <img src="/images/today_logoo.png" alt="GreenTrack Logo"> 
+  </a>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="/education">Education</a>
+    <a href="#events">Events</a>
+    <a href="#roles">Roles</a>
+    <a href="/price_estimate">Price Estimate</a>
+    <a href="#about">About</a>
+
+    {% if user %}
+      <a class="login-btn" href="/logout">Logout ({{ user["username"] }})</a>
+    {% else %}
+      <a class="login-btn" href="/login">Login</a>
+    {% endif %}
+  </nav>
+
+  <button class="menu-toggle">☰</button>
+</header>
+
+<div id="home" class="hero">
+  <h1>Track. Recycle. Save Sibu.</h1>
+  <p>Together, we make Sibu greener and cleaner.</p>
+</div>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div style="max-width:900px; margin:20px auto; padding:12px 16px; background:#fff3cd; color:#856404; border:1px solid #ffeeba; border-radius:10px; font-weight:600;">
+      {{ messages[0] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
+<section id="about" class="about-section reveal">
+  <h2>About Me</h2>
+  <p class="subtitle">The developer behind GreenTrack</p>
+
+  <div class="about-card">
+
+    <div class="about-left">
+      <div class="avatar">🎓</div>
+    </div>
+
+    <div class="about-right">
+      <h3>Vincent Ting Jin Sheng</h3>
+      <p>Bachelor of Computer Science</p>
+
+      <p><strong>Student ID:</strong> BCS23090041</p>
+      <p><strong>Project:</strong> GreenTrack Recycling System</p>
+
+      <p class="about-desc">
+        This project focuses on developing a web-based recycling tracking system 
+        to promote sustainable practices in Sibu. It integrates role-based access, 
+        gamification, and data tracking to encourage community participation in recycling.
+      </p>
+
+      <div class="skills">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Flask</span>
+        <span>SQLite</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="intro reveal">
+  <div class="intro-wrapper">
+
+    <div class="intro-left">
+      <span class="section-badge">🌱 Sustainable Recycling Platform</span>
+      <h2>About GreenTrack</h2>
+
+      <p>
+        GreenTrack is a web-based community recycling tracking and ranking system
+        developed to support sustainable waste management initiatives in Sibu.
+        It provides a centralized platform for residents, recycling merchants,
+        and municipal officers to manage recycling activities in a transparent
+        and structured manner.
+      </p>
+    </div>
+
+    <div class="intro-right">
+      <div class="feature-mini-card">
+        <strong>♻️ Tracking</strong>
+        <span>Records recycling activity clearly.</span>
+      </div>
+
+      <div class="feature-mini-card">
+        <strong>🏆 Ranking</strong>
+        <span>Encourages participation through leaderboard.</span>
+      </div>
+
+      <div class="feature-mini-card">
+        <strong>📊 Reporting</strong>
+        <span>Supports organized data monitoring.</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="objectives-section reveal">
+  <h2>System Objectives</h2>
+
+  <div class="objectives">
+    <div class="objective-card">
+      <h3>🔐 Secure Role-Based Web Platform</h3>
+      <p>To design and implement a secure, role-based web platform that allows residents, recycling merchants, and municipal council officers to register, log in, and interact with the system.</p>
+    </div>
+
+    <div class="objective-card">
+      <h3>🏆 Gamified Engagement & Recognition</h3>
+      <p>To integrate a gamified engagement module featuring a recycling participation leaderboard and an annual recognition award system.</p>
+    </div>
+
+    <div class="objective-card">
+      <h3>🧪 System Evaluation & User Acceptance</h3>
+      <p>To evaluate the system’s functionality, usability, and reliability through structured testing and user acceptance feedback.</p>
+    </div>
+
+    <div class="objective-card">
+      <h3>📊 Data Integrity & Reporting Support</h3>
+      <p>To ensure data integrity and accessibility through consistent data entry, update, and reporting mechanisms.</p>
+    </div>
+  </div>
+</section>
+
+<section id="events" class="events-section reveal">
+
+  <h2 class="event-title">
+    📢 Upcoming Recycling Events
+    <span class="event-sub">Stay updated with community activities</span>
+  </h2>
+
+  <div id="eventList"></div>
+
+</section>
+
+<section id="roles" class="roles-section reveal">
+  <h2>Choose Your Role</h2>
+  <p class="roles-subtitle">
+    Select the suitable access type to continue using GreenTrack.
+  </p>
+
+  <div class="roles">
+
+    <!-- ⭐ Resident（重点推荐） -->
+    <div class="role-card highlight">
+      <span class="badge">⭐ Recommended</span>
+
+      <h3>Resident</h3>
+      <p class="role-desc">Public user registration</p>
+
+      <a href="/login?role=resident" class="role-btn resident-btn">
+        Continue as Resident
+      </a>
+    </div>
+
+    <!-- Merchant -->
+    <div class="role-card">
+      <h3>Merchant</h3>
+      <p class="role-desc restricted">
+        Restricted system role.<br>
+        Created by System Administrator only.
+      </p>
+
+      <a href="/login?role=merchant" class="role-btn merchant-btn">
+        Merchant Login
+      </a>
+    </div>
+
+    <!-- Officer -->
+    <div class="role-card">
+      <h3>Council Officer</h3>
+      <p class="role-desc restricted">
+        Restricted system role.<br>
+        Created by System Administrator only.
+      </p>
+
+      <a href="/login?role=officer" class="role-btn officer-btn">
+        Officer Login
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  GreenTrack : A Web-Based Community Recycling Tracking and Ranking System
+</footer>
+
+<script>
+const menuBtn = document.querySelector(".menu-toggle");
+const nav = document.querySelector("nav");
+
+/* ☰ menu */
+menuBtn.onclick = () =>{
+  nav.classList.toggle("show");
+}
+
+/* 🔥 Navbar 滚动变色 */
+window.addEventListener("scroll", () => {
+  const header = document.querySelector("header");
+
+  if(window.scrollY > 50){
+    header.style.background = "#6f9a83";
+  }else{
+    header.style.background = "linear-gradient(135deg,#8cb09b,#6f9a83)";
+  }
+});
+
+// ================= EVENTS FROM BACKEND =================
+
+function formatTime(t){
+  if(!t) return "-";
+
+  let [h,m] = t.split(":");
+  h = parseInt(h, 10);
+
+  const ampm = h >= 12 ? "PM" : "AM";
+  h = h % 12 || 12;
+
+  return `${h}:${m} ${ampm}`;
+}
+
+async function loadEvents(){
+  const list = document.getElementById("eventList");
+
+  if(!list){
+    console.error("eventList not found in HTML");
+    return;
+  }
+
+  list.innerHTML = "<p>Loading events...</p>";
+
+  try{
+    const response = await fetch("/api/user_events");
+    const data = await response.json();
+
+    if(!data.success || !data.events || data.events.length === 0){
+      list.innerHTML = "<p>No events yet</p>";
+      return;
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const upcomingEvents = data.events
+      .filter(event => event.date >= today)
+      .sort((a,b) => {
+        if(a.pinned && !b.pinned) return -1;
+        if(!a.pinned && b.pinned) return 1;
+        return new Date(a.date) - new Date(b.date);
+      });
+
+    const pastEvents = data.events
+      .filter(event => event.date < today)
+      .sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    let html = "";
+
+    if(upcomingEvents.length > 0){
+      const nextEvent = upcomingEvents[0];
+
+      const diffDays = Math.ceil(
+        (new Date(nextEvent.date + "T00:00:00") - new Date(today + "T00:00:00"))
+        / (1000 * 60 * 60 * 24)
+      );
+
+      html += `
+        <div class="event-card next-event">
+          <h3>🌟 Next Event: ${nextEvent.title || "Community Recycling Event"} ${nextEvent.pinned ? "🔥" : ""}</h3>
+          <p>📅 <strong>${nextEvent.date}</strong></p>
+          <p>⏰ ${formatTime(nextEvent.time)}</p>
+          <p>📍 
+            <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(nextEvent.location || "")}" 
+               target="_blank">
+              ${nextEvent.location || "TBA"}
+            </a>
+          </p>
+          <p>${nextEvent.description || ""}</p>
+          <p class="countdown">⏳ In ${diffDays} day${diffDays !== 1 ? "s" : ""}</p>
+        </div>
+      `;
+    }else{
+      html += "<p>No upcoming events yet</p>";
+    }
+
+    if(upcomingEvents.length > 1){
+      html += `<h3 style="margin:30px 0 15px; color:#1b5e20;">Other Upcoming Events</h3>`;
+
+      upcomingEvents.slice(1,4).forEach(event => {
+        html += `
+          <div class="event-card">
+            <h3>${event.title || "Community Recycling Event"} ${event.pinned ? "🔥" : ""}</h3>
+            <p>📅 <strong>${event.date}</strong></p>
+            <p>⏰ ${formatTime(event.time)}</p>
+            <p>📍 ${event.location || "TBA"}</p>
+            <p>${event.description || ""}</p>
+          </div>
+        `;
+      });
+    }
+
+    if(pastEvents.length > 0){
+      html += `<h3 style="margin:35px 0 15px; color:#1b5e20;">📜 Recent Past Events</h3>`;
+
+      pastEvents.slice(0,2).forEach(event => {
+        html += `
+          <div class="event-card past-event">
+            <h3>${event.title || "Past Event"}</h3>
+            <p>📅 ${event.date}</p>
+            <p>⏰ ${formatTime(event.time)}</p>
+            <p>📍 ${event.location || "TBA"}</p>
+          </div>
+        `;
+      });
+    }
+
+    list.innerHTML = html;
+
+  }catch(error){
+    console.error("Failed to load home events:", error);
+    list.innerHTML = "<p>Unable to load events.</p>";
+  }
+}
+
+loadEvents();
+const revealElements = document.querySelectorAll(".reveal");
+
+function revealOnScroll(){
+  revealElements.forEach(el => {
+    const elementTop = el.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if(elementTop < windowHeight - 80){
+      el.classList.add("active");
+    }
+  });
+}
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+
+</script>
+
+</body>
+</html>

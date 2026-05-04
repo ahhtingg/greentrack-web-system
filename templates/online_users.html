@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Online Users | GreenTrack</title>
+
+<style>
+body{
+  font-family:"Segoe UI", sans-serif;
+  background:linear-gradient(135deg,#eef5f1,#dfe9e4);
+  margin:0;
+  padding:30px;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+}
+
+h1{
+  color:#1f6b4a;
+  margin-bottom:8px;
+}
+
+.back-btn{
+  display:inline-block;
+  margin-bottom:20px;
+  padding:10px 16px;
+  background:#2e8b57;
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:600;
+}
+
+.summary-box{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  margin:18px 0 22px;
+}
+
+.summary-pill{
+  background:white;
+  padding:12px 18px;
+  border-radius:999px;
+  box-shadow:0 6px 16px rgba(0,0,0,0.08);
+  font-weight:700;
+  color:#225c43;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  background:#e8f3ed;
+  color:#225c43;
+}
+
+tr:hover{
+  background:#f7fbf8;
+}
+
+.status-online{
+  color:green;
+  font-weight:bold;
+}
+
+.status-offline{
+  color:#888;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <a href="/officer_dashboard" class="back-btn">← Back to Dashboard</a>
+
+  <h1>🟢 Online Users & Login Status</h1>
+
+  <div class="summary-box">
+    <div class="summary-pill" id="onlineCount">🟢 Online: 0</div>
+    <div class="summary-pill" id="offlineCount">⚪ Offline: 0</div>
+  </div>
+
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Last Login</th>
+          <th>Last Logout</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody id="userTable">
+        <tr>
+          <td colspan="6">Loading...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+function safeText(value){
+  return value === null || value === undefined || value === "" ? "-" : value;
+}
+
+async function loadOnlineUsers(){
+  try{
+    const response = await fetch("/api/online_users");
+    const data = await response.json();
+
+    const table = document.getElementById("userTable");
+    const onlineCount = document.getElementById("onlineCount");
+    const offlineCount = document.getElementById("offlineCount");
+
+    table.innerHTML = "";
+
+    if(!data.success){
+      table.innerHTML = `<tr><td colspan="6">Access denied</td></tr>`;
+      onlineCount.textContent = "🟢 Online: 0";
+      offlineCount.textContent = "⚪ Offline: 0";
+      return;
+    }
+
+    onlineCount.textContent = `🟢 Online: ${data.online_count}`;
+    offlineCount.textContent = `⚪ Offline: ${data.offline_count}`;
+
+    if(!data.users || data.users.length === 0){
+      table.innerHTML = `<tr><td colspan="6">No users found.</td></tr>`;
+      return;
+    }
+
+    data.users.forEach(user => {
+      const statusText = user.is_logged_in == 1 ? "🟢 Online" : "⚪ Offline";
+      const statusClass = user.is_logged_in == 1 ? "status-online" : "status-offline";
+
+      table.innerHTML += `
+        <tr>
+          <td>${safeText(user.username)}</td>
+          <td>${safeText(user.email)}</td>
+          <td>${safeText(user.role)}</td>
+          <td>${safeText(user.last_login)}</td>
+          <td>${safeText(user.last_logout)}</td>
+          <td class="${statusClass}">${statusText}</td>
+        </tr>
+      `;
+    });
+
+  }catch(error){
+    document.getElementById("userTable").innerHTML =
+      `<tr><td colspan="6">Failed to load online users.</td></tr>`;
+  }
+}
+
+loadOnlineUsers();
+setInterval(loadOnlineUsers, 5000);
+</script>
+
+</body>
+</html>

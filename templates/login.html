@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #8cb09b, #6f9a83);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background: #f4f4f4;
+  padding: 20px 40px;
+  width: 640px;
+  border-radius: 21px;
+  box-shadow: 0 15px 45px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.card h2 {
+  margin: 6px 0;
+}
+
+h2 {
+  margin: 5px 0 5px;
+  color: #426755;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: rgb(76, 160, 111);
+  margin-bottom: 20px;
+}
+
+.role-box {
+  display: none;
+  background: #e6f4ec;
+  color: #1f7a4d;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.input-group {
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+label {
+  font-size: 13px;
+  color: #444;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 1px solid #6f9a83;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.forgot {
+  text-align: right;
+  font-size: 12px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
+.forgot a {
+  text-decoration: none;
+  color: #2f7a57;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#6f9a83,#4f7c68);
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight:700;
+  letter-spacing:0.3px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  opacity: 0.95;
+}
+
+button:active {
+  transform: translateY(0px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+
+.bottom {
+  margin-top: 15px;
+  font-size: 13px;
+}
+
+.bottom a {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.error {
+  color: red;
+  font-size: 15px;
+  margin-top: 12px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.logo {
+  margin-bottom: -30px;
+}
+
+.logo img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  border-radius: 15px;
+  background: #f5f5f5;
+  padding: 0;
+}
+
+.back-home-btn{
+  display:inline-block;
+  margin-bottom:18px;
+  padding:8px 14px;
+  font-size:13px;
+  color:#2f7a57;
+  background:#e6f4ec;
+  border:1px solid #cfe4d4;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:600;
+  transition:0.25s ease;
+}
+
+.back-home-btn:hover{
+  background:#d6efe3;
+  transform:translateY(-1px);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <a href="/" class="back-home-btn">
+  🏠 Back to Home
+</a>
+
+  <div class="logo">
+    <img src="/images/today_logoo.png" alt="logo">
+  </div>
+
+  <h2 id="loginTitle">Welcome Back</h2>
+  <div class="subtitle" id="loginSubtitle">Access your GreenTrack account</div>
+
+  <div class="role-box" id="roleBox"></div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="error">
+        {{ messages[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="/login" autocomplete="off">
+     <input type="hidden" id="selectedRole" name="selected_role">
+    <div class="input-group">
+      <label>Username</label>
+      <input type="text" id="username" name="username" autocomplete="off" required>
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password" name="password" autocomplete="new-password" required>
+    </div>
+
+    <div class="forgot">
+      <a href="/forgot_password">Forgot password?</a>
+    </div>
+
+    <button type="submit">Sign In</button>
+  </form>
+
+  <div class="bottom">
+    New here? <a href="/register">Create an account</a>
+  </div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const role = params.get("role");
+
+if (role === "resident" || role === "merchant" || role === "officer" || role === "superadmin") {
+  const roleText = role.charAt(0).toUpperCase() + role.slice(1);
+
+  document.getElementById("loginTitle").textContent = "Login as " + roleText;
+  document.getElementById("loginSubtitle").textContent = "Sign in to your " + roleText + " account";
+
+  const roleBox = document.getElementById("roleBox");
+  roleBox.style.display = "block";
+  roleBox.textContent = "You are logging in as " + roleText;
+}
+
+if (role) {
+  document.getElementById("selectedRole").value = role;
+}
+</script>
+
+</body>
+</html>

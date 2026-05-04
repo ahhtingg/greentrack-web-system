@@ -1,0 +1,357 @@
+/* === General Reset === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, #e8f5e9, #ffffff);
+  color: #333;
+  line-height: 1.6;
+}
+
+/* === Portal Header (Government Style) === */
+.portal-header {
+  background: #1b5e20; /* 深绿色 */
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 40px;
+  font-family: "Poppins", sans-serif;
+  border-bottom: 4px solid #66bb6a;
+}
+
+.portal-left {
+  font-size: 1.3em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.portal-title {
+  letter-spacing: 1px;
+}
+
+.portal-right {
+  font-size: 0.95em;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+/* === Navbar === */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2e7d32;
+  color: white;
+  padding: 15px 40px;
+}
+
+.navbar .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #c8e6c9;
+}
+
+.login-btn {
+  background: #ffffff;
+  color: #2e7d32;
+  padding: 6px 14px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.login-btn:hover {
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+
+/* === Hero Section === */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+  background: #a5d6a7;
+  color: #1b5e20;
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2em;
+}
+
+/* === Education Cards === */
+.education, .events, .about {
+  padding: 50px 60px;
+}
+
+h2 {
+  color: #2e7d32;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.edu-cards, .event-cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card, .event {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: center;
+}
+
+/* === Role Buttons === */
+.role-buttons {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.role-buttons button {
+  margin: 0 10px;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.role-buttons button:hover {
+  transform: scale(1.05);
+}
+
+.role.user { background: #4caf50; }
+.role.merchant { background: #ffb300; }
+.role.officer { background: #1976d2; }
+
+/* === Role Panels === */
+.role-panel {
+  display: none;
+  text-align: center;
+  padding: 30px;
+  margin: 0 auto;
+  width: 350px;
+  border-radius: 10px;
+}
+
+.user-bg { background: #e8f5e9; }
+.merchant-bg { background: #fff8e1; }
+.officer-bg { background: #e3f2fd; }
+
+.hidden { display: none; }
+
+.password-box {
+  position: relative;
+}
+
+.password-box .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 6px;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid #2e7d32;
+  color: #2e7d32;
+  padding: 6px 16px;
+  margin-top: 10px;
+  border-radius: 6px;
+}
+
+/* === Back Button === */
+.back-btn {
+  background: transparent;
+  color: #333;
+  border: 1px solid #888;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.back-btn:hover {
+  background: #ddd;
+  color: #000;
+}
+
+/* === 动画效果 === */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* 应用动画 */
+.role-panel {
+  animation: fadeIn 0.8s ease forwards;
+  display: none;
+}
+
+.role-panel.active {
+  display: block;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* 角色按钮区动画 */
+.role-buttons {
+  animation: fadeIn 1s ease;
+}
+
+/* Back 按钮 */
+.back-btn {
+  background: transparent;
+  border: 1px solid #666;
+  color: #333;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+.back-btn:hover {
+  background: #ddd;
+}
+
+/* 登录表单区的卡片样式 */
+.role-panel form {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 300px;
+  margin: 0 auto;
+  animation: fadeIn 0.8s ease;
+}
+
+/* 背景颜色轻微渐变，配合角色区分 */
+.user-bg { background: linear-gradient(to bottom, #e8f5e9, #ffffff); }
+.merchant-bg { background: linear-gradient(to bottom, #fff8e1, #ffffff); }
+.officer-bg { background: linear-gradient(to bottom, #e3f2fd, #ffffff); }
+
+/* --- High-End Recycle Price Table --- */
+.price-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 30px auto;
+  font-size: 16px;
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* Header */
+.price-table thead {
+  background: linear-gradient(135deg, #1b5e20, #43a047);
+  color: #ffffff;
+}
+
+.price-table th {
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* Body cells */
+.price-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Hover highlight */
+.price-table tbody tr:hover {
+  background: #e8f5e9;
+  transition: 0.25s ease-in-out;
+}
+
+/* Last row no border */
+.price-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* --- Premium Note Box (Fixed Left + Right Borders) --- */
+.note-premium {
+  width: 90%;
+  margin: 25px auto;
+  padding: 18px 22px;
+
+  /* Glass effect */
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+
+  /* 左右两条线 */
+  border-left: 5px solid #2e7d32;
+  border-right: 5px solid #2e7d32;
+
+  /* 弧形阴影 */
+  border-radius: 15px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
+
+  font-size: 16px;
+  color: #1b5e20;
+  line-height: 1.6;
+}
+.note-premium p {
+  margin: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.note-premium strong {
+  font-size: 17px;
+}

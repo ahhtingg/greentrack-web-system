@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Create Officer Account</title>
+
+<style>
+
+body{
+margin:0;
+font-family:"Segoe UI",sans-serif;
+background:linear-gradient(135deg,#8bb89a,#9bc8a8);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+background:#ffffff;
+width:420px;
+padding:36px;
+border-radius:16px;
+box-shadow:0 12px 30px rgba(0,0,0,0.12);
+}
+
+.card h1{
+text-align:left;
+margin-bottom:6px;
+color:#1f5a2e;
+font-size:24px;
+line-height:1.2;
+}
+
+.subtitle{
+text-align:left;
+font-size:13px;
+color:#6c7570;
+margin-bottom:20px;
+}
+
+.notice{
+background:#edf6ee;
+padding:12px 14px;
+font-size:12px;
+color:#3f6b52;
+margin-bottom:22px;
+border-radius:8px;
+}
+
+label{
+display:block;
+font-size:13px;
+margin-bottom:6px;
+color:#2f4f3f;
+}
+
+input,select{
+width:100%;
+padding:11px 12px;
+border-radius:8px;
+border:1px solid #cfd8d2;
+outline:none;
+margin-bottom:16px;
+font-size:14px;
+background:#fff;
+}
+
+input:focus,select:focus{
+border-color:#7aa488;
+box-shadow:0 0 0 3px rgba(122,164,136,0.12);
+}
+
+.rules{
+background:#f6f8f6;
+padding:12px;
+border-radius:8px;
+font-size:12px;
+color:#6f7f75;
+margin-bottom:10px;
+border:1px solid #e2ebe4;
+}
+
+.rules ul{
+padding-left:18px;
+margin:6px 0 0;
+}
+
+.rules li{
+color:red;
+margin-bottom:4px;
+}
+
+.rules li.valid{
+color:#2c8f5b;
+font-weight:600;
+}
+
+.strength{
+font-size:12px;
+margin-bottom:10px;
+font-weight:600;
+}
+
+.weak{color:#cc4444;}
+.medium{color:#e6a700;}
+.strong{color:#2c8f5b;}
+
+.show-row{
+display:flex;
+align-items:center;
+gap:8px;
+font-size:13px;
+color:#355f4c;
+margin-bottom:12px;
+}
+
+.show-row input{
+width:auto;
+margin:0;
+}
+
+.error{
+color:#cc4444;
+font-size:12px;
+margin-top:-10px;
+margin-bottom:10px;
+display:none;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+background:#8d8d8d;
+color:white;
+font-size:15px;
+font-weight:600;
+cursor:pointer;
+}
+
+
+button:hover:enabled{
+background:#6f8f7a;
+}
+
+button:disabled{
+background:#657f71;
+cursor:not-allowed;
+}
+
+button:hover:enabled{
+background:#a1b4ac;
+}
+
+.footer-note{
+text-align:center;
+margin-top:20px;
+font-size:13px;
+color:#555;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h1>Create Officer Account</h1>
+<div class="subtitle">Government Officer Registration</div>
+
+<div class="notice">
+⚠ This account can only be created by the <b>System Super Administrator</b>.
+</div>
+
+<form action="/create_officer" method="POST">
+
+<label>Officer Name</label>
+<input type="text" name="name" id="name" placeholder="Full name of officer" required>
+
+<label>Department</label>
+<input type="text" name="department" id="department" placeholder="Enter department name" required>
+
+<label>Contact</label>
+<input type="text" name="contact" id="contact" placeholder="e.g. 084-123456" required>
+
+<label>Username</label>
+<input type="text" name="username" id="username" placeholder="Login username" required>
+
+<label>Password</label>
+<input type="password" name="password" id="password" placeholder="Login password" required>
+
+<div class="rules">
+Password must:
+<ul>
+<li id="rule-length">At least 8 characters</li>
+<li id="rule-case">Uppercase & lowercase letters</li>
+<li id="rule-number">At least one number</li>
+<li id="rule-special">One special character (!@#$%)</li>
+</ul>
+</div>
+
+<div class="strength" id="strength"></div>
+
+<label>Confirm Password</label>
+<input type="password" name="confirm_password" id="confirmPassword" placeholder="Re-enter password" required>
+
+<div class="error" id="matchError">
+Passwords do not match
+</div>
+
+<div class="show-row">
+<input type="checkbox" onclick="togglePassword()">
+<span>Show password</span>
+</div>
+
+<button type="submit" id="createBtn" disabled>Create Officer Account</button>
+
+</form>
+
+<div class="footer-note">
+GreenTrack ♻ A Web-Based Community Recycling Tracking & Ranking System
+</div>
+
+</div>
+
+<script>
+
+const passwordInput = document.getElementById("password");
+const confirmPassword = document.getElementById("confirmPassword");
+
+const ruleLength = document.getElementById("rule-length");
+const ruleCase = document.getElementById("rule-case");
+const ruleNumber = document.getElementById("rule-number");
+const ruleSpecial = document.getElementById("rule-special");
+
+const strengthText = document.getElementById("strength");
+const matchError = document.getElementById("matchError");
+const btn = document.getElementById("createBtn");
+
+passwordInput.addEventListener("input",validatePassword);
+confirmPassword.addEventListener("input",validatePassword);
+
+function validatePassword(){
+
+const password = passwordInput.value;
+
+let validLength = password.length >= 8;
+let validCase = /[a-z]/.test(password) && /[A-Z]/.test(password);
+let validNumber = /[0-9]/.test(password);
+let validSpecial = /[!@#$%]/.test(password);
+
+toggleRule(ruleLength,validLength);
+toggleRule(ruleCase,validCase);
+toggleRule(ruleNumber,validNumber);
+toggleRule(ruleSpecial,validSpecial);
+
+let score = [validLength,validCase,validNumber,validSpecial].filter(Boolean).length;
+
+if(score <=1){
+strengthText.textContent="Strength: Weak";
+strengthText.className="strength weak";
+}
+else if(score<=3){
+strengthText.textContent="Strength: Medium";
+strengthText.className="strength medium";
+}
+else{
+strengthText.textContent="Strength: Strong";
+strengthText.className="strength strong";
+}
+
+checkMatch();
+
+if(validLength && validCase && validNumber && validSpecial && passwordMatch()){
+btn.disabled=false;
+}else{
+btn.disabled=true;
+}
+
+}
+
+function toggleRule(element,valid){
+
+if(valid){
+element.classList.add("valid");
+}else{
+element.classList.remove("valid");
+}
+
+}
+
+function passwordMatch(){
+
+if(confirmPassword.value === ""){
+matchError.style.display="none";
+return false;
+}
+
+if(passwordInput.value === confirmPassword.value){
+matchError.style.display="none";
+return true;
+}else{
+matchError.style.display="block";
+return false;
+}
+
+}
+
+function checkMatch(){
+passwordMatch();
+}
+
+function togglePassword(){
+
+let type=passwordInput.type==="password"?"text":"password";
+passwordInput.type=type;
+confirmPassword.type=type;
+
+}
+
+document.getElementById("contact").addEventListener("input",function(){
+
+this.value=this.value.replace(/[^0-9-]/g,'');
+
+});
+
+</script>
+
+</body>
+</html>

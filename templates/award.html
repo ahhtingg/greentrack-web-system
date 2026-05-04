@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GreenTrack Awards</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:"Segoe UI", sans-serif;
+  background:linear-gradient(135deg,#e8f5e9,#c8e6c9);
+  color:#20352a;
+}
+
+.wrapper{
+  max-width:1100px;
+  margin:0 auto;
+  padding:30px 18px 50px;
+}
+
+.page-header{
+  text-align:center;
+  margin-bottom:24px;
+}
+
+.page-header h1{
+  margin:0 0 10px;
+  font-size:40px;
+  color:#1b5e20;
+  font-weight:800;
+}
+
+.page-header p{
+  margin:0;
+  color:#51705a;
+  font-size:15px;
+}
+
+.top-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap;
+  margin:24px 0 20px;
+}
+
+.back-btn{
+  display:inline-block;
+  text-decoration:none;
+  background:#eef8f1;
+  color:#1b5e20;
+  border:1px solid #cfe4d4;
+  padding:10px 16px;
+  border-radius:12px;
+  font-weight:700;
+}
+
+.back-btn:hover{
+  background:#e3f1e7;
+}
+
+.filter{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  color:#295538;
+}
+
+select{
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #bfd6c6;
+  background:white;
+  font-size:14px;
+}
+
+.summary{
+  text-align:center;
+  margin-bottom:24px;
+  font-weight:700;
+  color:#2e7d32;
+  font-size:15px;
+}
+
+.section-title{
+  margin:32px 0 14px;
+  color:#1b5e20;
+  font-size:28px;
+  font-weight:800;
+}
+
+.ceremony-list{
+  display:grid;
+  gap:18px;
+  margin-bottom:28px;
+}
+
+.ceremony-card{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.ceremony-card h2{
+  margin:0 0 14px;
+  color:#1b5e20;
+  font-size:26px;
+}
+
+.ceremony-meta{
+  display:grid;
+  gap:8px;
+  color:#496053;
+  font-size:15px;
+  margin-bottom:12px;
+}
+
+.ceremony-desc{
+  color:#405548;
+  line-height:1.7;
+  font-size:15px;
+}
+
+.board{
+  display:grid;
+  gap:14px;
+}
+
+.card{
+  background:white;
+  padding:18px 20px;
+  border-radius:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:0.25s ease;
+}
+
+.card:hover{
+  transform:translateY(-2px);
+}
+
+.rank-1{
+  background:linear-gradient(135deg,#fff8d6,#fffdf2);
+  border-left:8px solid #f4c542;
+  box-shadow:0 0 18px rgba(244,197,66,0.25);
+}
+
+.rank-2{
+  background:linear-gradient(135deg,#f1f1f1,#ffffff);
+  border-left:8px solid #b0bec5;
+}
+
+.rank-3{
+  background:linear-gradient(135deg,#f9eadf,#fff7f1);
+  border-left:8px solid #cd7f32;
+}
+
+.rank-4{
+  border-left:6px solid #4caf50;
+}
+
+.me{
+  outline:3px solid #1b5e20;
+}
+
+.left{
+  font-size:17px;
+  font-weight:700;
+  color:#214234;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.rank-badge{
+  min-width:80px;
+  font-weight:800;
+}
+
+.weight{
+  font-weight:800;
+  color:#2e7d32;
+  font-size:18px;
+}
+
+.no-data{
+  text-align:center;
+  color:#5f6f63;
+  margin:20px 0;
+  background:white;
+  padding:24px;
+  border-radius:16px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+
+.footer-note{
+  margin-top:40px;
+  font-size:18px;
+  color:#2e7d32;
+  text-align:center;
+  opacity:0.9;
+}
+
+@media (max-width:700px){
+  .page-header h1{
+    font-size:30px;
+  }
+
+  .card{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  .weight{
+    font-size:17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <div class="page-header">
+    <h1>🏆 Top Recycling Awards</h1>
+    <p>View the latest award ceremony announcements and yearly top recycling contributors.</p>
+  </div>
+
+  <div class="top-bar">
+    <a href="/user_dashboard" class="back-btn">← Back to Dashboard</a>
+
+    <div class="filter">
+      <label for="yearSelect">Year:</label>
+      <select id="yearSelect" onchange="render()"></select>
+    </div>
+  </div>
+
+  <div class="summary" id="summary">Loading ranking data...</div>
+
+  <h2 class="section-title">Award Ceremony</h2>
+  <div id="ceremonyBox" class="ceremony-list">
+    {% if awards %}
+      {% for event in awards %}
+        <div class="ceremony-card">
+          <h2>🏆 {{ event.title }}</h2>
+          <div class="ceremony-meta">
+            <div>📅 <strong>Date:</strong> {{ event.date }}</div>
+            <div>⏰ <strong>Time:</strong> {{ event.time if event.time else '-' }}</div>
+            <div>📍 <strong>Location:</strong> {{ event.location }}</div>
+          </div>
+          <div class="ceremony-desc">
+            {{ event.description if event.description else 'No description provided.' }}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="no-data">No ceremony announced yet.</div>
+    {% endif %}
+  </div>
+
+  <h2 class="section-title">Top 5 Residents</h2>
+  <div class="board" id="board"></div>
+
+  <div class="footer-note">
+    Rankings are based on total recycling contributions recorded in the system.
+  </div>
+
+</div>
+
+<script id="ranking-data" type="application/json">
+{{ rankings_by_year | tojson | safe }}
+</script>
+
+<script>
+const currentUser = JSON.parse('{{ current_username | tojson | safe }}');
+const rankingsByYear = JSON.parse(document.getElementById("ranking-data").textContent || "{}");
+
+function populateYears() {
+  const yearSelect = document.getElementById("yearSelect");
+  const years = Object.keys(rankingsByYear).sort((a, b) => Number(b) - Number(a));
+
+  if (years.length === 0) {
+    const currentYear = String(new Date().getFullYear());
+    yearSelect.innerHTML = `<option value="${currentYear}">${currentYear}</option>`;
+    return;
+  }
+
+  yearSelect.innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join("");
+}
+
+function render() {
+  const yearSelect = document.getElementById("yearSelect");
+  const selectedYear = yearSelect.value;
+  const board = document.getElementById("board");
+  const summary = document.getElementById("summary");
+
+  board.innerHTML = "";
+
+  let users = rankingsByYear[selectedYear] || [];
+
+  if (users.length === 0) {
+    summary.textContent = "No ranking data for the selected year.";
+    board.innerHTML = `<div class="no-data">No top contributors found for ${selectedYear}.</div>`;
+    return;
+  }
+
+  users = [...users].sort((a, b) => Number(b.total) - Number(a.total));
+
+  const top5 = users.slice(0, 5);
+  const totalWeight = users.reduce((sum, user) => sum + Number(user.total || 0), 0);
+
+  summary.textContent = `👥 ${users.length} participants | ♻️ ${totalWeight.toFixed(1)} kg collected in ${selectedYear}`;
+
+  top5.forEach((user, index) => {
+    const rank = index + 1;
+    let className = "card";
+
+    if (rank === 1) className += " rank-1";
+    else if (rank === 2) className += " rank-2";
+    else if (rank === 3) className += " rank-3";
+    else className += " rank-4";
+
+    if (user.username === currentUser) {
+      className += " me";
+    }
+
+    let medal = "";
+    if (rank === 1) medal = "🥇";
+    else if (rank === 2) medal = "🥈";
+    else if (rank === 3) medal = "🥉";
+
+    board.innerHTML += `
+      <div class="${className}">
+        <div class="left">
+          <span class="rank-badge">${medal} #${rank}</span>
+          <span>${user.username}</span>
+        </div>
+        <div class="weight">${Number(user.total).toFixed(1)} kg</div>
+      </div>
+    `;
+  });
+}
+
+populateYears();
+render();
+</script>
+
+</body>
+</html>

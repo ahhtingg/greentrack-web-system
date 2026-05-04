@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Council Officer Dashboard - GreenTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+    }
+
+    body{
+      background:linear-gradient(135deg,#dff5e1,#c4e3cb,#a8d5ba);
+      min-height:100vh;
+      color:#23352b;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:35px auto;
+      padding:20px;
+    }
+
+    .header{
+      background:linear-gradient(135deg,#759dac,#2e7d32);
+      color:#fff;
+      padding:28px 32px;
+      border-radius:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      flex-wrap:wrap;
+      margin-bottom:30px;
+      box-shadow:0 8px 18px rgba(0,0,0,0.10);
+    }
+
+    .header-left h1{
+      margin:0;
+      font-size:30px;
+    }
+
+    .header-left p{
+      margin-top:6px;
+      font-size:14px;
+      opacity:0.95;
+    }
+
+   .header-right{
+      text-align:right;
+      font-size:13px;
+      line-height:1.6;
+      max-width:260px;
+      word-break:break-word;
+    }
+    .logout-btn{
+      margin-top:10px;
+      display:inline-block;
+      color:#fff;
+      text-decoration:none;
+      font-weight:bold;
+      background:rgba(255,255,255,0.12);
+      padding:8px 14px;
+      border-radius:8px;
+    }
+
+    .logout-btn:hover{
+      background:rgba(255,255,255,0.22);
+    }
+
+    .section-title{
+      font-size:18px;
+      color:#2e4d36;
+      margin:35px 0 10px;
+      font-weight:bold;
+    }
+
+    .section-subtitle{
+      font-size:13px;
+      color:#3f4741;
+      margin-bottom:18px;
+    }
+
+    .stats-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:22px;
+    }
+
+    .stat-card{
+      background:rgba(255,255,255,0.75);
+      padding:22px;
+      border-radius:14px;
+      box-shadow:0 6px 14px rgba(24,17,17,0.08);
+      text-align:center;
+    }
+
+    .stat-card h2{
+      margin:0;
+      font-size:26px;
+      color:#2e7d32;
+    }
+
+    .stat-card span{
+      display:block;
+      margin-top:6px;
+      font-size:14px;
+      color:#5b665f;
+    }
+
+    .highlight-box{
+      background:linear-gradient(135deg,#fff6cc,#ffe082);
+      padding:16px 20px;
+      border-radius:12px;
+      margin-top:20px;
+      font-weight:bold;
+      color:#5d4037;
+      box-shadow:0 6px 12px rgba(0,0,0,0.06);
+    }
+
+    .action-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:24px;
+      align-items:stretch;
+    }
+
+    .action-card{
+      background:white;
+      padding:24px;
+      border-radius:16px;
+      box-shadow:0 8px 18px rgba(0,0,0,0.1);
+      display:flex;
+      flex-direction:column;
+      transition:0.25s;
+    }
+
+    .action-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 12px 24px rgba(0,0,0,0.14);
+    }
+
+    .action-card h3{
+      margin:0 0 10px;
+      color:#2e7d32;
+      font-size:18px;
+    }
+
+    .action-card p{
+      font-size:14px;
+      color:#555;
+      line-height:1.6;
+      margin-bottom:18px;
+      flex-grow:1;
+    }
+
+    .btn{
+      display:block;
+      width:100%;
+      text-align:center;
+      padding:12px 20px;
+      background:linear-gradient(135deg,#8cbaa0,#2e7d32);
+      color:white;
+      border-radius:8px;
+      text-decoration:none;
+      font-size:14px;
+      font-weight:bold;
+      border:none;
+      cursor:pointer;
+    }
+
+    .btn:hover{
+      background:#1b5e20;
+    }
+
+    .footer-space{
+      height:40px;
+    }
+
+    @media(max-width:768px){
+      .header-left h1{
+        font-size:24px;
+      }
+
+      .header-right{
+        text-align:left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>👮 Council Officer Dashboard</h1>
+      <p>Sibu Municipal Council · GreenTrack Recycling System</p>
+    </div>
+
+    <div class="header-right">
+      <div>Logged in as: <strong id="officerUsername">Officer</strong></div>
+      <div>Department: Environmental Health Division</div>
+      <div>Role: Monitoring & Reporting</div>
+      <a href="/logout" class="logout-btn">🚪 Logout</a>
+    </div>
+  </div>
+
+  <div class="section-title">📊 Official Recycling Indicators</div>
+  <div class="section-subtitle">
+    Summary indicators used for monitoring and reporting purposes.
+  </div>
+
+  <div class="stats-grid">
+  <div class="stat-card">
+    <h2 id="totalRecycledMonth">0.0 kg</h2>
+    <span>Total Recycled (This Month)</span>
+  </div>
+
+  <div class="stat-card">
+    <h2 id="activeMerchants">0</h2>
+    <span>Active Recycling Merchants</span>
+  </div>
+
+  <div class="stat-card">
+    <h2 id="totalParticipants">0</h2>
+    <span>Registered Residents</span>
+  </div>
+
+  <div class="stat-card">
+    <h2 id="latestReportingMonth">-</h2>
+    <span>Latest Date Month</span>
+  </div>
+</div>
+
+  <div class="highlight-box" id="topRecyclerBox">
+    🥇 Top Recycler This Month: <strong>-</strong>
+  </div>
+
+  <div class="section-title">🗂 Administrative Actions</div>
+  <div class="section-subtitle">
+    Officer-level actions for managing official recycling programs.
+  </div>
+
+  <div class="action-grid">
+    <div class="action-card">
+      <h3>📅 Publish Monthly Recycling Event</h3>
+      <p>Create and announce official recycling campaigns to encourage community participation throughout the month.</p>
+      <a href="/publish_event" class="btn">Publish Event</a>
+    </div>
+
+    <div class="action-card">
+      <h3>👥 View User Management</h3>
+      <p>Review registered participants, recycling totals, status, and user activity records in one place.</p>
+      <a href="/user_list" class="btn">Manage Users</a>
+    </div>
+
+    <div class="action-card">
+      <h3>🏆 View Recycling Leaderboard</h3>
+      <p>View top recycling participants ranked based on verified total recycling weight.</p>
+      <a href="/ranking" class="btn">View Leaderboard</a>
+    </div>
+
+    <div class="action-card">
+      <h3>🏅 Annual Recycling Award Ceremony</h3>
+      <p>Organize, edit, and publish the annual recycling award ceremony details for participants.</p>
+      <a href="/manage_award" class="btn">Manage Ceremony</a>
+    </div>
+
+    <div class="action-card">
+      <h3>📜 Generate Certificate</h3>
+      <p>Generate a participation certificate for qualified GreenTrack recycling programme users.</p>
+      <a href="/generate_certificate" class="btn">Generate Certificate</a>
+    </div>
+
+    <div class="action-card">
+      <h3>📂 View Issued Certificates</h3>
+      <p>View and verify certificates that have already been generated for participants.</p>
+      <a href="/issued_certificates" class="btn">View Certificates</a>
+    </div>
+
+    <div class="action-card">
+      <h3>🟢 View Online Users</h3>
+      <p>Monitor current login status, last login time, and logout records of users.</p>
+      <a href="/online_users" class="btn">View Online Users</a>
+    </div>
+  </div>
+
+  <div class="footer-space"></div>
+</div>
+
+<script>
+async function loadOfficerDashboardData() {
+  try {
+    const response = await fetch("/api/officer_dashboard_data");
+    const data = await response.json();
+
+    if (!data.success) {
+      return;
+    }
+
+    document.getElementById("officerUsername").textContent = data.username;
+    document.getElementById("totalRecycledMonth").textContent = `${data.total_recycled_month.toFixed(1)} kg`;
+    document.getElementById("activeMerchants").textContent = data.active_merchants;
+    document.getElementById("totalParticipants").textContent = data.total_participants;
+    document.getElementById("latestReportingMonth").textContent = data.latest_reporting_month || "-";
+    document.getElementById("topRecyclerBox").innerHTML =
+      `🥇 Top Recycler This Month: <strong>${data.top_recycler_text}</strong>`;
+  } catch (error) {
+    console.error("Failed to load officer dashboard:", error);
+  }
+}
+
+loadOfficerDashboardData();
+</script>
+
+</body>
+</html>

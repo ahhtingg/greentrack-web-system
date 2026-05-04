@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Generate Certificate | GreenTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#dff5e1,#c4e3cb,#a8d5ba);
+      color:#23352b;
+    }
+
+    .page{
+      max-width:1100px;
+      margin:32px auto;
+      padding:0 18px 40px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:22px;
+      flex-wrap:wrap;
+    }
+
+    .back-btn{
+      display:inline-block;
+      text-decoration:none;
+      background:#2f8f62;
+      color:white;
+      padding:10px 16px;
+      border-radius:12px;
+      font-weight:700;
+      font-size:14px;
+      transition:0.2s ease;
+    }
+
+    .back-btn:hover{
+      background:#216b49;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,#1f7a8c,#6aa187);
+      color:white;
+      border-radius:24px;
+      padding:28px 30px;
+      box-shadow:0 14px 30px rgba(0,0,0,0.10);
+      margin-bottom:24px;
+    }
+
+    .hero h1{
+      font-size:34px;
+      margin-bottom:10px;
+      font-weight:800;
+    }
+
+    .hero p{
+      font-size:15px;
+      line-height:1.7;
+      max-width:780px;
+      opacity:0.96;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:24px;
+      align-items:start;
+    }
+
+    .card{
+      background:white;
+      border-radius:22px;
+      padding:24px;
+      box-shadow:0 10px 28px rgba(0,0,0,0.08);
+      border:1px solid #edf2ef;
+    }
+
+    .card h2{
+      font-size:26px;
+      color:#1f7a8c;
+      margin-bottom:10px;
+    }
+
+    .card-desc{
+      font-size:14px;
+      color:#6f8088;
+      line-height:1.6;
+      margin-bottom:18px;
+    }
+
+    .flash-box{
+      background:#eef8f1;
+      border:1px solid #cfe4d4;
+      color:#1b5e20;
+      padding:12px 14px;
+      border-radius:12px;
+      margin-bottom:16px;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      font-size:14px;
+      font-weight:700;
+      color:#355464;
+      margin-bottom:8px;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #cfd9d3;
+      border-radius:12px;
+      background:white;
+      font-size:14px;
+      outline:none;
+      transition:0.2s ease;
+    }
+
+    input:focus, textarea:focus{
+      border-color:#80b396;
+      box-shadow:0 0 0 3px rgba(47,143,98,0.12);
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .action-row{
+      display:flex;
+      gap:12px;
+      margin-top:18px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:12px 18px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.2s ease;
+      text-decoration:none;
+      display:inline-block;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,#1f7a8c,#2a9d8f);
+      color:white;
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      opacity:0.96;
+    }
+
+    .btn-secondary{
+      background:#eef8f6;
+      color:#1f7a8c;
+      border:1px solid #d9ece7;
+    }
+
+    .btn-secondary:hover{
+      background:#e5f4f0;
+    }
+
+    .info-box{
+      background:linear-gradient(135deg,#f8fcfb,#ffffff);
+      border:1px solid #e8efec;
+      border-radius:18px;
+      padding:18px;
+      line-height:1.9;
+      color:#46616d;
+      margin-bottom:18px;
+    }
+
+    .info-box h3{
+      font-size:20px;
+      color:#1f7a8c;
+      margin-bottom:10px;
+    }
+
+    .info-box strong{
+      color:#1f7a8c;
+    }
+
+    .process-box{
+      background:linear-gradient(135deg,#fffdf7,#ffffff);
+      border:1px solid #f0e4ba;
+      border-radius:18px;
+      padding:20px;
+      line-height:1.9;
+      color:#57666f;
+    }
+
+    .process-box h3{
+      font-size:20px;
+      color:#987200;
+      margin-bottom:10px;
+    }
+
+    .step{
+      display:flex;
+      gap:12px;
+      margin-bottom:12px;
+      align-items:flex-start;
+    }
+
+    .step-number{
+      min-width:28px;
+      height:28px;
+      border-radius:50%;
+      background:#2f8f62;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:13px;
+      font-weight:800;
+      margin-top:2px;
+    }
+
+    .step-text{
+      font-size:14px;
+      color:#52646c;
+      line-height:1.7;
+    }
+
+    .small-note{
+      margin-top:16px;
+      font-size:13px;
+      color:#6b7f73;
+      line-height:1.7;
+    }
+
+    @media(max-width:900px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:640px){
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <div class="topbar">
+      <a href="/officer_dashboard" class="back-btn">← Back to Officer Dashboard</a>
+    </div>
+
+    <div class="hero">
+      <h1>📜 Generate Certificate</h1>
+      <p>
+        Create a participation certificate for users who have successfully joined
+        GreenTrack recycling activities. Complete the form below and submit it to
+        generate the certificate PDF and QR-supported output.
+      </p>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <h2>Certificate Form</h2>
+        <p class="card-desc">
+          Fill in the required details to generate a certificate.
+        </p>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash-box">{{ messages[0] }}</div>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/generate" method="POST">
+          <div class="form-grid">
+
+            <div class="field">
+              <label for="name">Participant Username / Name</label>
+              <input 
+                type="text" 
+                name="name" 
+                id="residentNameInput"
+                list="residentList"
+                placeholder="Type resident username"
+                required
+              >
+
+              <datalist id="residentList"></datalist>
+
+              <small style="color:#60747d;">
+                Please select an existing resident username so the certificate can appear in the user's dashboard.
+              </small>
+            </div>
+
+            <div class="field">
+              <label for="date">Certificate Date</label>
+              <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="field full">
+              <label for="programme">Programme / Certificate Title</label>
+              <input type="text" id="programme" name="programme" value="GreenTrack Recycling Programme" required>
+            </div>
+
+            <div class="field full">
+              <label for="location">Location</label>
+              <input type="text" id="location" name="location" value="Swan Square, Sibu" required>
+            </div>
+
+            <div class="field full">
+              <label for="remarks">Optional Remarks</label>
+              <textarea id="remarks" name="remarks" placeholder="Example: For active participation in community recycling activities."></textarea>
+            </div>
+          </div>
+
+          <div class="action-row">
+            <button type="submit" class="btn btn-primary">Generate Certificate</button>
+            <button type="button" class="btn btn-secondary" onclick="resetCertificateForm()">Clear Form</button>
+          </div>
+        </form>
+
+        <div class="small-note">
+          After submission, the Flask backend will generate the certificate ID,
+          verification link, QR code, and downloadable PDF output.
+        </div>
+      </div>
+
+      <div>
+        <div class="info-box">
+          <h3>Guidelines</h3>
+          • Select the correct resident username so the certificate can appear in the user's dashboard.<br>
+          • Keep the programme title consistent for official submissions.<br>
+          • Use a real location that matches the event or activity context.<br>
+          • The certificate ID and QR code are generated automatically by the backend.
+        </div>
+
+        <div class="process-box">
+          <h3>After Submission</h3>
+
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-text">
+              The system generates a unique certificate ID such as
+              <strong>GT2026-00XX</strong>.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-text">
+              A QR code is created automatically for certificate verification.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-text">
+              The result page lets you verify the certificate and download the PDF file.
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-text">
+              Participants can scan the QR code using a phone to open the verification page.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+      async function loadResidents() {
+          try {
+            const response = await fetch("/api/residents");
+            const data = await response.json();
+
+            const list = document.getElementById("residentList");
+
+            if (!data.success || !data.residents) {
+              return;
+            }
+
+            list.innerHTML = data.residents
+              .map(username => `<option value="${username}"></option>`)
+              .join("");
+
+          } catch (error) {
+            console.error("Failed to load residents:", error);
+          }
+        }
+
+        function resetCertificateForm(){
+          document.getElementById("residentNameInput").value = "";
+          document.getElementById("programme").value = "GreenTrack Recycling Programme";
+          document.getElementById("location").value = "Swan Square, Sibu";
+          document.getElementById("date").value = "";
+          document.getElementById("remarks").value = "";
+        }
+
+        loadResidents();
+      </script>
+
+</body>
+</html>

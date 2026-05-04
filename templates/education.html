@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GreenTrack | Recycling Education</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+
+  <!-- ========== CSS (原样保留，不改颜色) ========== -->
+  <style>
+    body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f3f7f3;
+  color: #2e2e2e;
+
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+
+
+    .header-inner {
+    max-width:1200px;
+    margin:auto;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 ;
+  }
+    header {
+  background: linear-gradient(135deg,#4e6d50,#5f8463);
+  color: white;
+  padding: 28px 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
+header p{
+  margin-top:6px;
+  opacity:0.9;
+  font-size:15px;
+}
+
+.header-text h1{
+  margin:0;
+  font-size:32px;
+  font-weight:600;
+  letter-spacing:0.5px;
+}
+
+.header-text p{
+  margin-top:6px;
+  font-size:16px;
+  opacity:0.95;
+}
+    .lang-btns button {
+
+  width:60px;
+  height:34px;
+
+  margin-left:8px;
+
+  border-radius:8px;
+  border:2px solid white;
+
+  background:white;
+  color:#8cab8e;
+
+  font-size:14px;
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:0.25s;
+}
+
+.lang-btns{
+  display:flex;
+  gap:10px;
+}
+
+/* mouse hover */
+.lang-btns button:hover{
+
+  background:#3f5f45;
+  color:white;
+
+}
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px;
+
+      flex:1;
+    }
+
+    /* ===== Category Buttons ===== */
+    .category-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .category-buttons button {
+      background: #42a247;
+      border: none;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    .category-buttons button:hover,
+    .category-buttons button.active {
+      background: #325a34;
+    }
+
+    /* ===== Icon Style ===== */
+    .icon 
+    {
+     margin-right: 10px;
+     font-size: 18px;
+     vertical-align: middle;
+     color: #367f4d;   /* 用你原本标题绿色 */
+    }
+
+    /* ===== Cards ===== */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: rgb(230, 216, 216);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+       box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      margin-top: 5px;
+      color: #367f4d;
+    }
+
+    .before, .after {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .before strong {
+      color: #ac3333;
+    }
+
+    .after strong {
+      color: #4f7615f6;
+    }
+
+      footer{
+      width:100%;
+      background:#38673b;
+      color:rgb(251, 251, 251);
+
+      text-align:center;
+      font-size:14px;
+
+      padding:14px 0;
+
+      margin-top:auto;
+
+      border-top:3px solid #2f5532;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+
+    <div class="header-text">
+      <h1>
+        <i class="fa-solid fa-recycle"></i>
+        <span data-key="title">Recycling Education</span>
+      </h1>
+
+      <p data-key="subtitle">
+        Learn how recycling works and work together to make Sibu cleaner
+      </p>
+    </div>
+
+    <div class="lang-btns">
+      <button onclick="switchLang('en')">EN</button>
+      <button onclick="switchLang('zh')">中文</button>
+    </div>
+
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="category-buttons">
+    <button class="active" onclick="filterItems('all', this)" data-key="all">All</button>
+    <button onclick="filterItems('plastic', this)" data-key="plastic">Plastic</button>
+    <button onclick="filterItems('paper', this)" data-key="paper">Paper</button>
+    <button onclick="filterItems('glass', this)" data-key="glass">Glass</button>
+    <button onclick="filterItems('metal', this)" data-key="metal">Metal</button>
+    <button onclick="filterItems('ewaste', this)" data-key="ewaste">E-Waste</button>
+    <button onclick="filterItems('oil', this)" data-key="oil">Used Cooking Oil</button>
+  </div>
+
+  <div class="cards">
+
+    <div class="card plastic">
+      <h3>
+        <i class="fa-solid fa-bottle-water icon"></i>
+        <span data-key="plastic">Plastic</span>
+      </h3>
+      <div class="before">
+        <strong data-key="before">Before Recycling:</strong>
+        <span data-key="plastic_before">plastic bottles, plastic bag, CD</span>
+      </div>
+      <div class="after">
+        <strong data-key="after">After Recycling:</strong>
+        <span data-key="plastic_after">plastic pellets, recycled plastic chairs, plastic furniture</span>
+      </div>
+    </div>
+
+    <div class="card paper">
+      <h3>
+        <i class="fa-solid fa-file-lines icon"></i>
+        <span data-key="paper">Paper</span>
+      </h3>
+      <div class="before">
+        <strong data-key="before">Before Recycling:</strong>
+        <span data-key="paper_before">old newspaper, old carton box, white paper, egg trays</span>
+      </div>
+      <div class="after">
+        <strong data-key="after">After Recycling:</strong>
+        <span data-key="paper_after">recycled cardboard boxes, tissue paper rolls</span>
+      </div>
+    </div>
+
+    <div class="card glass">
+      <h3>
+        <i class="fa-solid fa-wine-bottle icon"></i>
+        <span data-key="glass">Glass</span>
+      </h3>
+      <div class="before">
+        <strong data-key="before">Before Recycling:</strong>
+        <span data-key="glass_before">glass bottles, glass jars, glass cups, glass containers</span>
+      </div>
+      <div class="after">
+        <strong data-key="after">After Recycling:</strong>
+        <span data-key="glass_after">new glass bottles, glass tiles, decorative glass</span>
+      </div>
+    </div>
+
+    <div class="card metal">
+      <h3>
+        <i class="fa-solid fa-gears icon"></i>
+        <span data-key="metal">Metal</span>
+      </h3>
+      <div class="before">
+        <strong data-key="before">Before Recycling:</strong>
+        <span data-key="metal_before">aluminium cans, metal bottle caps, metal furniture parts</span>
+      </div>
+      <div class="after">
+        <strong data-key="after">After Recycling:</strong>
+        <span data-key="metal_after">new aluminium cans, metal furniture, electrical wiring</span>
+      </div>
+    </div>
+
+    <div class="card ewaste">
+      <h3>
+        <i class="fa-solid fa-laptop icon"></i>
+        <span data-key="ewaste">E-Waste</span>
+      </h3>
+      <div class="before">
+        <strong data-key="before">Before Recycling:</strong>
+        <span data-key="ewaste_before">old smartphones, broken laptops, used batteries</span>
+      </div>
+      <div class="after">
+        <strong data-key="after">After Recycling:</strong>
+        <span data-key="ewaste_after">refurbished electronic devices, new batteries</span>
+      </div>
+    </div>
+
+    <div class="card oil">
+      <h3>
+        <i class="fa-solid fa-oil-can icon"></i>
+        <span data-key="oil">Used Cooking Oil</span>
+      </h3>
+      <div class="before">
+        <strong data-key="before">Before Recycling:</strong>
+        <span data-key="oil_before">used cooking oil from households or restaurants</span>
+      </div>
+      <div class="after">
+        <strong data-key="after">After Recycling:</strong>
+        <span data-key="oil_after">biodiesel fuel, industrial lubricants, soap, candles</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+ GreenTrack – A Web-Based Community Recycling Tracking & Ranking System
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- ========== JS ========== -->
+<script>
+function filterItems(category, clickedButton) {
+  const cards = document.querySelectorAll('.card');
+  const buttons = document.querySelectorAll('.category-buttons button');
+
+  buttons.forEach(btn => btn.classList.remove('active'));
+  clickedButton.classList.add('active');
+
+  cards.forEach(card => {
+    if (category === 'all' || card.classList.contains(category)) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+const langData = {
+  en: {
+    title: "♻️ Recycling Education",
+    subtitle: "Learn how recycling works and work together to make Sibu cleaner",
+    all: "All",
+    plastic: "Plastic",
+    paper: "Paper",
+    glass: "Glass",
+    metal: "Metal",
+    ewaste: "E-Waste",
+    oil: "Used Cooking Oil",
+    before: "Before Recycling:",
+    after: "After Recycling:",
+
+    plastic_before: "plastic bottles, plastic bag, CD",
+    plastic_after: "plastic pellets, recycled plastic chairs, plastic furniture",
+
+    paper_before: "old newspaper, old carton box, white paper, egg trays",
+    paper_after: "recycled cardboard boxes, tissue paper rolls",
+
+    glass_before: "glass bottles, glass jars, glass cups, glass containers",
+    glass_after: "new glass bottles, glass tiles, decorative glass",
+
+    metal_before: "aluminium cans, metal bottle caps, metal furniture parts",
+    metal_after: "new aluminium cans, metal furniture, electrical wiring",
+
+    ewaste_before: "old smartphones, broken laptops, used batteries",
+    ewaste_after: "refurbished electronic devices, new batteries",
+
+    oil_before: "used cooking oil from households or restaurants",
+    oil_after: "biodiesel fuel, industrial lubricants, soap, candles"
+  },
+
+  zh: {
+    title: "♻️ 回收教育",
+    subtitle: "了解回收流程，一起为诗巫打造更清洁的环境",
+    all: "全部",
+    plastic: "塑料",
+    paper: "纸类",
+    glass: "玻璃",
+    metal: "金属",
+    ewaste: "电子废料",
+    oil: "废弃食用油",
+    before: "回收前：",
+    after: "回收后：",
+
+    plastic_before: "塑料瓶、塑料袋、光盘",
+    plastic_after: "塑料颗粒、塑料椅子、塑料家具",
+
+    paper_before: "旧报纸、纸箱、白纸、蛋托",
+    paper_after: "再生纸箱、卫生纸卷",
+
+    glass_before: "玻璃瓶、玻璃罐、玻璃杯、玻璃容器",
+    glass_after: "新玻璃瓶、玻璃砖、装饰玻璃制品",
+
+    metal_before: "铝罐、瓶盖、金属家具零件",
+    metal_after: "新铝罐、金属家具、电线",
+
+    ewaste_before: "旧手机、损坏的笔记本、旧电池",
+    ewaste_after: "翻新电子产品、新电池",
+
+    oil_before: "来自家庭或餐厅的废弃食用油",
+    oil_after: "生物柴油、工业润滑油、肥皂、蜡烛"
+  }
+};
+
+function switchLang(lang) {
+  document.querySelectorAll("[data-key]").forEach(el => {
+    const key = el.getAttribute("data-key");
+    if (langData[lang][key]) {
+      el.innerText = langData[lang][key];
+    }
+  });
+}
+</script>
+
+</body>
+</html>

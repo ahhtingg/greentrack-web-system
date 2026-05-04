@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GreenTrack | Merchant Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+    }
+
+    :root{
+      --primary:#2e7d32;
+      --primary-dark:#1f5e2c;
+      --primary-light:#e6f3e7;
+      --accent:#4caf50;
+      --danger:#d64545;
+      --danger-dark:#b83030;
+      --text:#233127;
+      --muted:#6b7d70;
+      --card:#ffffff;
+      --line:#dfe7e1;
+      --bg1:#8ea79a;
+      --bg2:#a3c2aa;
+      --shadow:0 10px 28px rgba(0,0,0,0.12);
+      --radius:18px;
+    }
+
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,var(--bg1),var(--bg2));
+      color:var(--text);
+      display:flex;
+      flex-direction:column;
+    }
+
+    .topbar{
+      background:rgba(225, 241, 228, 0.92);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid rgba(255,255,255,0.35);
+      box-shadow:0 3px 10px rgba(0,0,0,0.06);
+      padding:16px 28px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .brand img{
+      width:46px;
+      height:46px;
+      object-fit:contain;
+      border-radius:10px;
+      background:#fff;
+      padding:4px;
+    }
+
+    .brand-text{
+      min-width:0;
+    }
+
+    .brand-title{
+      font-size:20px;
+      font-weight:700;
+      color:#18351f;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .brand-subtitle{
+      font-size:13px;
+      color:#52705a;
+      margin-top:2px;
+    }
+
+    .logout-btn{
+      border:none;
+      background:#fff;
+      color:var(--primary-dark);
+      padding:10px 18px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.25s;
+      box-shadow:0 4px 10px rgba(0,0,0,0.08);
+    }
+
+    .logout-btn:hover{
+      background:var(--primary);
+      color:#fff;
+      transform:translateY(-1px);
+    }
+
+    .page{
+      width:min(1200px, 94%);
+      margin:30px auto 40px;
+      flex:1;
+    }
+
+    .dashboard-grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:24px;
+      align-items:start;
+    }
+
+    .card{
+      background:rgba(255,255,255,0.97);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:24px;
+      border:1px solid rgba(255,255,255,0.5);
+    }
+
+    .card + .card{
+      margin-top:24px;
+    }
+
+    .section-title{
+      font-size:22px;
+      font-weight:700;
+      color:#527b5d;
+      margin-bottom:8px;
+    }
+
+    .section-desc{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:20px;
+      line-height:1.5;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:16px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      font-size:14px;
+      font-weight:700;
+      margin-bottom:8px;
+      color:#304836;
+    }
+
+    input, select{
+      width:100%;
+      border:1px solid #ccd8cf;
+      background:#fff;
+      border-radius:12px;
+      padding:12px 14px;
+      font-size:14px;
+      outline:none;
+      transition:0.2s;
+    }
+
+    input:focus, select:focus{
+      border-color:#7ebc8d;
+      box-shadow:0 0 0 3px rgba(76,175,80,0.12);
+    }
+
+    .items-wrapper{
+      margin-top:22px;
+      border-top:1px solid var(--line);
+      padding-top:20px;
+    }
+
+    .items-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+
+    .items-header h3{
+      font-size:17px;
+      color:#4e6c56;
+    }
+
+    .items-header span{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .item{
+      background:#f8fbf8;
+      border:1px solid #dfe9e3;
+      border-radius:16px;
+      padding:18px;
+      margin-bottom:14px;
+    }
+
+    .item-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:12px;
+      flex-wrap:wrap;
+    }
+
+    .item-name{
+      font-weight:700;
+      color:#4f6f58;
+      font-size:15px;
+    }
+
+    .item-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+    }
+
+    .item-grid .full{
+      grid-column:1 / -1;
+    }
+
+    .btn{
+      border:none;
+      border-radius:12px;
+      padding:12px 16px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      transition:0.25s;
+    }
+
+    .btn-primary{
+      background:var(--primary);
+      color:#fff;
+    }
+
+    .btn-primary:hover{
+      background:var(--primary-dark);
+    }
+
+    .btn-secondary{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    .btn-secondary:hover{
+      background:#429846;
+    }
+
+    .btn-danger{
+      background:var(--danger);
+      color:#fff;
+      padding:9px 14px;
+      border-radius:10px;
+    }
+
+    .btn-danger:hover{
+      background:var(--danger-dark);
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .declaration{
+      margin-top:18px;
+      background:#f7faf7;
+      border:1px solid #e2ebe4;
+      border-radius:14px;
+      padding:14px 16px;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+    }
+
+    .declaration input{
+      width:18px;
+      height:18px;
+      margin-top:2px;
+      accent-color:var(--primary);
+    }
+
+    .declaration label{
+      margin:0;
+      font-size:13px;
+      font-weight:500;
+      line-height:1.6;
+      color:#4a6151;
+    }
+
+    .note{
+      margin-top:12px;
+      font-size:12px;
+      color:#6d7c71;
+      line-height:1.5;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:14px;
+    }
+
+    .summary-box{
+      background:linear-gradient(180deg,#ffffff,#f6faf7);
+      border:1px solid #e1e9e3;
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .summary-label{
+      font-size:13px;
+      color:#67786c;
+      margin-bottom:8px;
+      font-weight:600;
+    }
+
+    .summary-value{
+      font-size:28px;
+      font-weight:800;
+      color:var(--primary-dark);
+    }
+
+    .summary-value.small-money{
+      font-size:24px;
+    }
+
+    .mini-card{
+      margin-top:24px;
+      background:#f8fbf8;
+      border:1px solid #dfebe2;
+      border-radius:16px;
+      padding:18px;
+    }
+
+    .mini-card h3{
+      font-size:16px;
+      margin-bottom:10px;
+      color:#496854;
+    }
+
+    .mini-card ul{
+      padding-left:18px;
+      color:#607166;
+      line-height:1.8;
+      font-size:13px;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+      border-radius:14px;
+      border:1px solid #d8e3db;
+      background:#fff;
+    }
+
+    table{
+      width:100%;
+      min-width:900px;
+      border-collapse:collapse;
+    }
+
+    th{
+      background:#e8f2ea;
+      color:#35513c;
+      font-size:13px;
+      padding:14px 12px;
+      text-align:center;
+      border-bottom:1px solid #cfdbd2;
+    }
+
+    td{
+      padding:13px 12px;
+      text-align:center;
+      border-bottom:1px solid #e7efea;
+      font-size:13px;
+      color:#304636;
+    }
+
+    tr:nth-child(even) td{
+      background:#fbfdfb;
+    }
+
+    tr:hover td{
+      background:#f2f8f3;
+    }
+
+    .empty-state{
+      text-align:center;
+      padding:26px 14px;
+      color:#708176;
+      font-size:14px;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#edf7ef;
+      color:#2d6e38;
+      font-weight:700;
+      font-size:12px;
+    }
+
+    .footer{
+      text-align:center;
+      color:#ffffff;
+      padding:22px 16px 28px;
+      font-size:14px;
+      font-weight:600;
+      letter-spacing:0.2px;
+    }
+
+    @media (max-width: 980px){
+      .dashboard-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 700px){
+      .form-grid,
+      .item-grid,
+      .summary-grid{
+        grid-template-columns:1fr;
+      }
+
+      .page{
+        width:min(96%, 96%);
+        margin-top:20px;
+      }
+
+      .card{
+        padding:18px;
+      }
+
+      .brand-title{
+        white-space:normal;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <img src="/images/today_logoo.png" alt="GreenTrack Logo">
+      <div class="brand-text">
+        <div class="brand-title">GreenTrack — Merchant Dashboard</div>
+        <div class="brand-subtitle">Sibu Recycling Sdn. Bhd | Recycling Collection Management</div>
+      </div>
+    </div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </header>
+
+  <main class="page">
+    <div class="dashboard-grid">
+
+      <!-- LEFT -->
+      <section>
+        <div class="card">
+          <h2 class="section-title">Record Recycling Collection</h2>
+          <p class="section-desc">
+            Enter resident collection details and record one or more recyclable item types in a single submission.
+          </p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="resident_username">Resident Username</label>
+              <input type="text" id="resident_username" list="residentList" placeholder="Enter resident username">
+              <datalist id="residentList"></datalist>
+            </div>
+
+            <div class="field">
+              <label for="location">Collection Location</label>
+              <input type="text" id="location" placeholder="Enter collection location">
+            </div>
+
+            <div class="field">
+              <label for="date">Collection Date</label>
+              <input type="date" id="date">
+            </div>
+
+            <div class="field">
+              <label for="time">Collection Time</label>
+              <input type="time" id="time">
+            </div>
+          </div>
+
+          <div class="items-wrapper">
+            <div class="items-header">
+              <div>
+                <h3>Recyclable Items</h3>
+                <span>Each item type will be saved as one row in the record table.</span>
+              </div>
+              <button class="btn btn-secondary" type="button" onclick="addItem()">+ Add Item Type</button>
+            </div>
+
+            <div id="items"></div>
+          </div>
+
+          <div class="declaration">
+            <input type="checkbox" id="confirm">
+            <label for="confirm">
+              I declare that the recycling information recorded above has been verified and is accurate according to the physical recycling collection conducted on-site.
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick="addRecord()">Add Recycling Record</button>
+            <button class="btn" type="button" onclick="resetForm()" style="background:#eef4ef;color:#24422c;">Clear Form</button>
+          </div>
+
+          <div class="note">
+            One submission may contain multiple recyclable item types. Donation items will automatically use RM 0.00 as the price per kg.
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Recent Recorded Collections</h2>
+          <p class="section-desc">
+            Latest recycling entries recorded by the merchant officer.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Username</th>
+                  <th>Type</th>
+                  <th>Weight</th>
+                  <th>Price/kg</th>
+                  <th>Total</th>
+                  <th>Location</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="recordTableBody"></tbody>
+            </table>
+          </div>
+
+          <div id="emptyState" class="empty-state" style="display:none;">
+            No recycling records have been added yet.
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT -->
+      <aside>
+        <div class="card">
+          <h2 class="section-title">Collection Summary</h2>
+          <p class="section-desc">
+            Quick overview of all recorded recycling collections stored in the SQLite database.
+          </p>
+
+          <div class="summary-grid">
+            <div class="summary-box">
+              <div class="summary-label">👤 Recorded Residents</div>
+              <div class="summary-value" id="totalResidents">0</div>
+            </div>
+
+            <div class="summary-box">
+              <div class="summary-label">♻ Total Items</div>
+              <div class="summary-value" id="totalItems">0</div>
+            </div>
+
+            <div class="summary-box">
+              <div class="summary-label">⚖ Total Weight (kg)</div>
+              <div class="summary-value" id="totalWeight">0.00</div>
+            </div>
+
+            <div class="summary-box">
+              <div class="summary-label">💰 Total Payment</div>
+              <div class="summary-value small-money" id="totalPayment">RM 0.00</div>
+            </div>
+          </div>
+
+          <div class="mini-card">
+            <h3>Dashboard Tips</h3>
+            <ul>
+              <li>Use the resident username consistently for accurate tracking.</li>
+              <li>Multiple items can be recorded under one collection session.</li>
+              <li>Donation items are counted but not paid by weight.</li>
+              <li>All recycling records are saved through the Flask backend and SQLite database.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Merchant Status</h2>
+          <p class="section-desc">
+            Current working mode for the merchant collection officer.
+          </p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <span class="badge">System Ready</span>
+            <span class="badge">Collection Recording Active</span>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    GreenTrack ♻ : A Web-Based Community Recycling Tracking & Ranking System
+  </footer>
+
+  <script>
+    let itemCount = 0;
+    const maxItems = 8;
+
+    function logout(){
+      window.location.href = "/logout";
+    }
+
+    function setDefaultDateTime(){
+      const now = new Date();
+      const dateInput = document.getElementById("date");
+      const timeInput = document.getElementById("time");
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const hours = String(now.getHours()).padStart(2, "0");
+      const minutes = String(now.getMinutes()).padStart(2, "0");
+
+      if(!dateInput.value){
+        dateInput.value = `${year}-${month}-${day}`;
+      }
+      if(!timeInput.value){
+        timeInput.value = `${hours}:${minutes}`;
+      }
+    }
+
+    function generateSubmissionId(username, date, time) {
+      const cleanUser = username.replace(/\s+/g, "").toLowerCase();
+      const cleanDate = date.replace(/-/g, "");
+      const cleanTime = time.replace(":", "");
+      return `SUB-${cleanUser}-${cleanDate}-${cleanTime}-${Date.now()}`;
+    }
+
+    function createItemHTML(index, showRemove = false){
+      return `
+        <div class="item">
+          <div class="item-top">
+            <div class="item-name">Recyclable Item ${index}</div>
+            ${showRemove ? `<button type="button" class="btn btn-danger" onclick="removeItem(this)">Remove</button>` : ``}
+          </div>
+
+          <div class="item-grid">
+            <div class="field">
+              <label>Type</label>
+              <select class="type">
+                <option value="">Select Type</option>
+                <option value="Plastic">Plastic</option>
+                <option value="Paper">Paper</option>
+                <option value="Metal">Metal</option>
+                <option value="Glass">Glass</option>
+                <option value="Electronic Waste">Electronic Waste</option>
+                <option value="Used Cooking Oil">Used Cooking Oil</option>
+                <option value="donation">Donation Items</option>
+              </select>
+            </div>
+
+            <div class="field donationBox" style="display:none;">
+              <label>Donation Item</label>
+              <select class="donationItem">
+                <option value="">Select Donation Item</option>
+                <option value="Reusable Books">Reusable Books</option>
+                <option value="Used Clothing">Used Clothing</option>
+                <option value="Reusable Toys">Reusable Toys</option>
+                <option value="Expired Medicine">Expired Medicine</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Weight (kg)</label>
+              <input type="number" class="weight" min="0" step="0.01" placeholder="e.g. 5.50">
+            </div>
+
+            <div class="field">
+              <label>Price per kg (RM)</label>
+              <input type="number" class="price" min="0" step="0.01" placeholder="e.g. 2.50">
+            </div>
+
+            <div class="field full">
+              <label>Total (RM)</label>
+              <input type="number" class="total" readonly placeholder="Auto calculated">
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function refreshItemTitles(){
+      const itemElements = document.querySelectorAll(".item");
+      itemElements.forEach((item, index) => {
+        const title = item.querySelector(".item-name");
+        if(title){
+          title.textContent = `Recyclable Item ${index + 1}`;
+        }
+      });
+    }
+
+    function addItem(){
+      if(itemCount >= maxItems){
+        alert("Maximum 8 item types allowed.");
+        return;
+      }
+
+      const container = document.getElementById("items");
+      const wrapper = document.createElement("div");
+      wrapper.innerHTML = createItemHTML(itemCount + 1, itemCount >= 1);
+      container.appendChild(wrapper.firstElementChild);
+
+      itemCount++;
+      attachEvents();
+      refreshItemTitles();
+    }
+
+    function removeItem(btn){
+      btn.closest(".item").remove();
+      itemCount--;
+      refreshItemTitles();
+    }
+
+    function attachEvents(){
+      const items = document.querySelectorAll(".item");
+
+      items.forEach(item => {
+        const weight = item.querySelector(".weight");
+        const price = item.querySelector(".price");
+        const type = item.querySelector(".type");
+        const donationBox = item.querySelector(".donationBox");
+        const donationItem = item.querySelector(".donationItem");
+
+        weight.oninput = function(){
+          calculateItem(item);
+        };
+
+        price.oninput = function(){
+          calculateItem(item);
+        };
+
+        type.onchange = function(){
+          if(type.value === "donation"){
+            price.value = "0";
+            price.disabled = true;
+            donationBox.style.display = "block";
+            if(donationItem) donationItem.selectedIndex = 0;
+          } else {
+            price.disabled = false;
+            price.value = "";
+            donationBox.style.display = "none";
+            if(donationItem) donationItem.selectedIndex = 0;
+          }
+          calculateItem(item);
+        };
+      });
+    }
+
+    function calculateItem(item){
+      const weight = parseFloat(item.querySelector(".weight").value) || 0;
+      const price = parseFloat(item.querySelector(".price").value) || 0;
+      item.querySelector(".total").value = (weight * price).toFixed(2);
+    }
+
+    function validateItems(items){
+      if(items.length === 0){
+        alert("Please add at least one recyclable item.");
+        return false;
+      }
+
+      for(const item of items){
+        const type = item.querySelector(".type").value;
+        const weight = item.querySelector(".weight").value;
+        const price = item.querySelector(".price").value;
+        const donationItem = item.querySelector(".donationItem")?.value || "";
+
+        if(type === ""){
+          alert("Please select recyclable type.");
+          return false;
+        }
+
+        if(type === "donation" && donationItem === ""){
+          alert("Please select a donation item.");
+          return false;
+        }
+
+        if(weight === "" || parseFloat(weight) <= 0){
+          alert("Please enter a valid weight greater than 0.");
+          return false;
+        }
+
+        if(type !== "donation" && (price === "" || parseFloat(price) < 0)){
+          alert("Please enter a valid price per kg.");
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    async function loadResidents(){
+  try{
+    const res = await fetch("/api/residents");
+    const data = await res.json();
+
+    const list = document.getElementById("residentList");
+    list.innerHTML = "";
+
+    if(!data.success || !data.residents){
+      return;
+    }
+
+    data.residents.forEach(name => {
+      const option = document.createElement("option");
+      option.value = name;
+      list.appendChild(option);
+    });
+
+  }catch(error){
+    console.error("Failed to load residents:", error);
+  }
+}
+    loadResidents();
+
+    async function renderTableFromStorage(){
+      const tbody = document.getElementById("recordTableBody");
+      const emptyState = document.getElementById("emptyState");
+
+      tbody.innerHTML = "";
+
+      try {
+        const response = await fetch("/api/recycling_records");
+        const records = await response.json();
+
+        if(records.length === 0){
+          emptyState.style.display = "block";
+        } else {
+          emptyState.style.display = "none";
+        }
+
+        records.forEach((record) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${record.collection_date}</td>
+            <td>${record.collection_time}</td>
+            <td>${record.resident_username}</td>
+            <td>${record.item_type}</td>
+            <td>${Number(record.weight).toFixed(2)} kg</td>
+            <td>RM ${Number(record.price_per_kg).toFixed(2)}</td>
+            <td>RM ${Number(record.total_amount).toFixed(2)}</td>
+            <td>${record.location}</td>
+            <td>
+              <button class="btn btn-danger" onclick="deleteStoredRow(${record.id})">Delete</button>
+            </td>
+          `;
+          tbody.appendChild(row);
+        });
+
+        recalculateSummary(records);
+
+      } catch (error) {
+        console.error("Failed to load recycling records:", error);
+        emptyState.style.display = "block";
+        emptyState.textContent = "Failed to load recycling records.";
+      }
+    }
+
+    async function deleteStoredRow(recordId){
+      const confirmDelete = confirm("Are you sure you want to delete this record?");
+      if(!confirmDelete) return;
+
+      try {
+        const response = await fetch(`/api/delete_recycling_record/${recordId}`, {
+          method: "DELETE"
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+          await renderTableFromStorage();
+          alert("Record deleted successfully.");
+        } else {
+          alert("Failed to delete record.");
+        }
+      } catch (error) {
+        console.error("Delete error:", error);
+        alert("Failed to delete record.");
+      }
+    }
+
+    function recalculateSummary(records){
+        const residentsSet = new Set();
+        let items = 0;
+        let weight = 0;
+        let payment = 0;
+
+        records.forEach(record => {
+          residentsSet.add(record.resident_username);
+          items++;
+          weight += parseFloat(record.weight) || 0;
+          payment += parseFloat(record.total_amount) || 0;
+        });
+
+        document.getElementById("totalResidents").textContent = residentsSet.size;
+        document.getElementById("totalItems").textContent = items;
+        document.getElementById("totalWeight").textContent = weight.toFixed(2);
+        document.getElementById("totalPayment").textContent = "RM " + payment.toFixed(2);
+      }
+
+    function resetForm(){
+      document.getElementById("resident_username").value = "";
+      document.getElementById("location").value = "";
+      document.getElementById("confirm").checked = false;
+
+      const itemsContainer = document.getElementById("items");
+      itemsContainer.innerHTML = "";
+      itemCount = 0;
+
+      setDefaultDateTime();
+      addItem();
+    }
+
+    async function addRecord(){
+      const username = document.getElementById("resident_username").value.trim().toLowerCase();
+      const date = document.getElementById("date").value;
+      const time = document.getElementById("time").value;
+      const location = document.getElementById("location").value.trim();
+      const confirm = document.getElementById("confirm").checked;
+      const items = Array.from(document.querySelectorAll(".item"));
+
+      if(username === ""){
+        alert("Please enter resident username.");
+        return;
+      }
+
+      if(date === ""){
+        alert("Please select collection date.");
+        return;
+      }
+
+      if(time === ""){
+        alert("Please select collection time.");
+        return;
+      }
+
+      if(location === ""){
+        alert("Please enter collection location.");
+        return;
+      }
+
+      if(!validateItems(items)){
+        return;
+      }
+
+      if(!confirm){
+        alert("Please confirm the declaration before submitting.");
+        return;
+      }
+
+      try {
+        for (const item of items) {
+          const typeValue = item.querySelector(".type").value;
+          const donationItem = item.querySelector(".donationItem")?.value || "";
+          const finalType = typeValue === "donation" ? `Donation - ${donationItem}` : typeValue;
+
+          const weight = parseFloat(item.querySelector(".weight").value) || 0;
+          const price = parseFloat(item.querySelector(".price").value || 0) || 0;
+
+          const response = await fetch("/api/add_record", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              resident_username: username,
+              item_type: finalType,
+              weight: weight,
+              price_per_kg: price,
+              location: location,
+              collection_date: date,
+              collection_time: time
+            })
+          });
+
+          const result = await response.json();
+
+          if(!result.success){
+            alert(result.message || "Failed to save recycling record.");
+            return;
+          }
+        }
+
+        await renderTableFromStorage();
+        resetForm();
+        alert("Recycling record added successfully.");
+
+      } catch (error) {
+        console.error("Add record error:", error);
+        alert("Failed to save recycling record.");
+      }
+    }
+    function initPage(){
+      setDefaultDateTime();
+      resetForm();
+      renderTableFromStorage();
+    }
+
+
+    initPage();
+  </script>
+</body>
+</html>

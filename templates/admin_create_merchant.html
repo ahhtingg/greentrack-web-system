@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GreenTrack Create Recycling Merchant Account</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:linear-gradient(135deg,#6fa88b,#9dc7a9);
+}
+
+.page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+}
+
+.card{
+  width:100%;
+  max-width:520px;
+  background:white;
+  border-radius:16px;
+  padding:38px 34px;
+  box-shadow:0 20px 45px rgba(0,0,0,0.15);
+}
+
+.title{
+  font-size:24px;
+  font-weight:700;
+  color:#1b5e20;
+  margin-bottom:6px;
+}
+
+.subtitle{
+  font-size:14px;
+  color:#666;
+  margin-bottom:24px;
+}
+
+.notice{
+  background:#e8f5e9;
+  color:#1b5e20;
+  padding:14px 16px;
+  border-radius:8px;
+  font-size:13px;
+  margin-bottom:26px;
+}
+
+.form-group{
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:14px;
+}
+
+input:focus{
+  outline:none;
+  border-color:#2e7d32;
+}
+
+.password-wrapper{
+  position:relative;
+}
+
+.toggle{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:13px;
+  color:#2e7d32;
+  cursor:pointer;
+}
+
+.rules{
+  margin-top:10px;
+  font-size:12px;
+}
+
+.rules span{
+  display:block;
+  color:#888;
+}
+
+.rules span.valid{
+  color:#2e7d32;
+}
+
+.rules span.invalid{
+  color:#c62828;
+}
+
+.limit{
+  margin-top:20px;
+  font-size:13px;
+  color:#c62828;
+  background:#fdecea;
+  padding:14px;
+  border-radius:8px;
+}
+
+.btn{
+  width:100%;
+  margin-top:25px;
+  padding:14px;
+  font-size:15px;
+  font-weight:600;
+  border-radius:10px;
+  border:none;
+  background:#2e7d32;
+  color:white;
+  cursor:pointer;
+}
+
+.btn:disabled{
+  background:#9e9e9e;
+}
+
+.footer{
+  margin-top:15px;
+  text-align:center;
+  font-size:12px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+  <div class="card">
+
+    <div class="title">GreenTrack Create Recycling Merchant Account</div>
+    <div class="subtitle">Super Admin Access Only</div>
+
+    <div class="notice">
+      This account can only be created by the Super Admin.
+    </div>
+
+    <!-- ✅ FORM 正确包住全部 -->
+    <form action="/create_merchant" method="POST" autocomplete="off">
+
+      <div class="form-group">
+        <label>Merchant Company Name</label>
+        <input type="text" name="company_name" placeholder="e.g. GreenCycle Sdn Bhd" required>
+      </div>
+
+      <div class="form-group">
+        <label>Merchant Email</label>
+        <input type="email" name="email" placeholder="merchant@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" autocomplete="off" required>
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+
+        <div class="password-wrapper">
+          <input type="password" name="password" id="password" autocomplete="new-password" required>
+
+          <div class="toggle" onclick="togglePassword()" id="toggleBtn">
+            Show
+          </div>
+        </div>
+
+        <div class="rules">
+          <span id="r1" class="invalid">• Minimum 8 characters</span>
+          <span id="r2" class="invalid">• At least 1 uppercase letter</span>
+          <span id="r3" class="invalid">• At least 1 lowercase letter</span>
+          <span id="r4" class="invalid">• At least 1 number</span>
+        </div>
+      </div>
+
+      <div class="limit">
+        Only ONE merchant account is allowed.
+      </div>
+
+      <button type="submit" class="btn" id="createBtn" disabled>
+        Create Merchant Account
+      </button>
+
+    </form>
+
+    <div class="footer">
+      GreenTrack ♻: A Web-Based Community Recycling Tracking & Ranking System
+    </div>
+
+  </div>
+</div>
+
+<script>
+const password = document.getElementById("password");
+const createBtn = document.getElementById("createBtn");
+
+const rules = {
+  r1:v=>v.length>=8,
+  r2:v=>/[A-Z]/.test(v),
+  r3:v=>/[a-z]/.test(v),
+  r4:v=>/[0-9]/.test(v)
+};
+
+password.addEventListener("input",()=>{
+  let allValid=true;
+
+  for(let r in rules){
+    const el=document.getElementById(r);
+
+    if(rules[r](password.value)){
+      el.classList.remove("invalid");
+      el.classList.add("valid");
+    }else{
+      el.classList.remove("valid");
+      el.classList.add("invalid");
+      allValid=false;
+    }
+  }
+
+  createBtn.disabled=!allValid;
+});
+
+function togglePassword(){
+  const toggleBtn = document.getElementById("toggleBtn");
+
+  if(password.type === "password"){
+    password.type = "text";
+    toggleBtn.textContent = "Hide";
+  }else{
+    password.type = "password";
+    toggleBtn.textContent = "Show";
+  }
+}
+</script>
+
+</body>
+</html>

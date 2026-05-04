@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Super Admin Dashboard | GreenTrack</title>
+
+<style>
+body {
+  margin:0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#eef5f1,#dfe9e4);
+}
+
+header{
+  background:#0f3a2ca3;
+  color:white;
+  padding:18px;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:1100px;
+  margin:40px auto;
+}
+
+.section-title{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:20px;
+  color:#2c7552;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+
+.card, .action-card{
+  background:white;
+  padding:25px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  transition:0.3s;
+}
+
+.card:hover, .action-card:hover{
+  transform:translateY(-5px);
+}
+
+.stat{
+  font-size:32px;
+  font-weight:bold;
+  color:#1f8f5a;
+}
+
+button{
+  margin-top:15px;
+  padding:10px 18px;
+  border:none;
+  border-radius:8px;
+  background:#2e8b57;
+  color:white;
+  cursor:pointer;
+  font-size:14px;
+}
+
+button:hover{
+  background:#256f47;
+}
+
+.note{
+  margin-top:30px;
+  padding:18px;
+  border-left:5px solid #e0a800;
+  background:#fff8e1;
+  border-radius:8px;
+  font-size:14px;
+  color:#555;
+}
+
+footer{
+  text-align:center;
+  margin-top:50px;
+  font-size:13px;
+  color:#777;
+}
+
+header{
+  background:#0f3a2ca3;
+  color:white;
+  padding:18px;
+  font-size:20px;
+  font-weight:bold;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logout-btn{
+  margin-top:0;
+  background:#d9534f;
+}
+
+.logout-btn:hover{
+  background:#b52b27;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<header>
+  <span>GreenTrack – Super Admin Dashboard</span>
+  <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+</header>
+
+<div class="container">
+
+<!-- ================= OVERVIEW ================= -->
+<div class="section-title">📊 System Overview</div>
+
+<div class="grid">
+  <div class="card">
+    <div>Total Residents</div>
+    <div class="stat" id="totalResidents">0</div>
+  </div>
+
+  <div class="card">
+    <div>Recycling Merchants</div>
+    <div class="stat" id="totalMerchants">0</div>
+  </div>
+
+  <div class="card">
+    <div>Government Officers</div>
+    <div class="stat" id="totalOfficers">0</div>
+  </div>
+
+  <div class="card">
+    <div>System Status</div>
+    <div class="stat" id="systemStatus">Loading...</div>
+  </div>
+</div>
+
+<!-- ================= ACCOUNT MANAGEMENT ================= -->
+<div class="section-title" style="margin-top:40px;">⚙️ Account Management</div>
+
+<div class="grid">
+
+  <div class="action-card">
+    <h3>Create Recycling Merchant</h3>
+    <p>Register and authorize recycling merchant account for the system.</p>
+    <button onclick="location.href='/admin_create_merchant'">
+      Create Merchant
+    </button>
+  </div>
+
+  <div class="action-card">
+    <h3>Create Government Officer</h3>
+    <p>Add official officer responsible for monitoring and reporting.</p>
+    <button onclick="location.href='/admin_create_officer'">
+      Create Officer
+    </button>
+  </div>
+
+  <div class="action-card">
+    <h3>Quick Role Switch</h3>
+    <p>Login instantly as Merchant or Officer for local testing only.</p>
+
+    <button onclick="location.href='/login_as/merchant'">
+      Login as Merchant
+    </button>
+
+    <button style="background:#1565c0; margin-left:10px;"
+      onclick="location.href='/login_as/officer'">
+      Login as Officer
+    </button>
+
+  </div>
+</div>
+
+<!-- ================= NOTE ================= -->
+
+<!-- ================= NOTE ================= -->
+<div class="note">
+<strong>System Role Description:</strong><br><br>
+The Super Administrator manages system setup, account creation, and maintenance.
+Operational tasks such as event publishing, recycling data updates, and leaderboard management are handled by Government Officers.
+</div>
+
+<footer>
+GreenTrack: A Web-Based Community Recycling Tracking & Ranking System
+</footer>
+
+</div>
+
+<script>
+async function loadOverview() {
+  try {
+    const response = await fetch("/api/superadmin_overview");
+    const data = await response.json();
+
+    if (!data.success) {
+      document.getElementById("systemStatus").textContent = "Access Denied";
+      return;
+    }
+
+    document.getElementById("totalResidents").textContent = data.total_residents;
+    document.getElementById("totalMerchants").textContent = data.total_merchants;
+    document.getElementById("totalOfficers").textContent = data.total_officers;
+    document.getElementById("systemStatus").textContent = data.system_status;
+
+  } catch (error) {
+    console.error(error);
+    alert("Unable to load system overview.");
+  }
+}
+
+loadOverview();
+</script>
+
+</body>
+</html>

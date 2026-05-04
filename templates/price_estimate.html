@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GreenTrack | Price Estimate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:linear-gradient(135deg,#eef5f1,#dfe9e4);
+  margin:0;
+  color:#23352b;
+}
+
+.top-header{
+  background:linear-gradient(135deg,#2f6f55,#33715a);
+  color:white;
+  padding:26px 46px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:24px;
+  flex-wrap:wrap;
+}
+
+.top-header h1{
+  margin:0;
+  font-size:26px;
+  font-weight:800;
+}
+
+.top-header p{
+  margin:6px 0 0;
+  font-size:14px;
+  opacity:.9;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+   align-items:center;
+}
+
+.role-pill{
+  background:rgba(255,255,255,0.16);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.back-btn{
+  display:inline-block;
+  text-decoration:none;
+  background:rgba(255,255,255,0.22);
+  color:white;
+  padding:10px 16px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:13px;
+}
+
+.back-btn:hover{
+  background:rgba(255,255,255,0.32);
+}
+
+.page-wrap{
+  max-width:1100px;
+  margin:0 auto;
+  padding:24px 16px 40px;
+}
+
+.lang-switch{
+  text-align:right;
+  margin:0 0 18px;
+}
+
+.lang-btn{
+  padding:8px 15px;
+  margin-left:8px;
+  border-radius:20px;
+  border:1px solid #2e7d32;
+  background:#fff;
+  color:#2e7d32;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.lang-btn:hover{
+  background:#2e7d32;
+  color:#fff;
+}
+
+.hero-card{
+  background:linear-gradient(135deg,#2f8aa0,#7cb38e);
+  color:white;
+  border-radius:18px;
+  padding:28px 32px;
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+  margin-top:10px;
+  margin-bottom:24px;
+}
+
+.hero-card h2{
+  margin:0 0 10px;
+  font-size:34px;
+  text-align:left;
+  color:white;
+}
+
+.hero-card p{
+  margin:0;
+  line-height:1.7;
+  font-size:15px;
+}
+
+.table-wrap{
+  width:100%;
+  margin:24px auto;
+  overflow-x:auto;
+}
+
+.price-table,
+.pro-table{
+  width:100%;
+  min-width:760px;
+  border-collapse:separate;
+  border-spacing:0;
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 5px 15px rgba(0,0,0,.12);
+}
+
+.price-table thead{
+  background:linear-gradient(135deg,#1b5e20,#43a047);
+  color:#fff;
+}
+
+.price-table th,.price-table td,
+.pro-table th,.pro-table td{
+  padding:14px;
+}
+
+.price-table tbody tr:hover,
+.pro-table tbody tr:hover{
+  background:#e8f5e9;
+}
+
+.price-table td,
+.pro-table td{
+  border-bottom:1px solid #e0e0e0;
+}
+
+.price-table tr:last-child td,
+.pro-table tr:last-child td{
+  border-bottom:none;
+}
+
+.notice-box{
+  width:100%;
+  margin:26px auto;
+  background:linear-gradient(135deg,#f0fff4,#ffffff);
+  border-left:6px solid #2e7d32;
+  border-right:6px solid #2e7d32;
+  padding:16px 20px 16px 56px;
+  border-radius:14px;
+  box-shadow:0 8px 20px rgba(46,125,50,.12);
+  color:#1b5e20;
+  font-size:15px;
+  line-height:1.7;
+  position:relative;
+  overflow:visible;
+}
+
+.notice-box::before{
+  content:"i";
+  position:absolute;
+  top:50%;
+  left:16px;
+  transform:translateY(-50%);
+  font-size:18px;
+  font-weight:700;
+  font-family:Arial, sans-serif;
+  background:#2e7d32;
+  color:#fff;
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  box-shadow:0 4px 10px rgba(0,0,0,.12);
+}
+
+
+.section-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:800;
+  color:#1b5e20;
+  margin:40px 0 20px;
+}
+
+.pro-table th{
+  background:#e8f5e9;
+  color:#1b5e20;
+}
+
+.price{
+  font-weight:700;
+  color:#2e7d32;
+  text-align:center;
+}
+
+.chart-box{
+  width:100%;
+  margin:30px auto;
+  background:#fff;
+  padding:22px;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+  max-width:900px;
+}
+
+#priceChart{
+  max-height:320px;
+}
+
+.chart-box h2{
+  text-align:center;
+  color:#1b5e20;
+  margin-top:0;
+}
+
+.footer-note{
+  margin-top:18px;
+  font-size:13px;
+  color:#7a857f;
+  text-align:center;
+}
+
+
+@media(max-width:768px){
+  .top-header{
+    padding:18px 16px;
+  }
+
+  .top-header h1{
+    font-size:20px;
+  }
+
+  .header-right{
+    text-align:left;
+  }
+
+  .hero-card h2{
+    font-size:28px;
+  }
+
+  .page-wrap{
+    padding:18px 12px 30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-header">
+  <div>
+    <h1>GreenTrack – Price Estimate</h1>
+    <p>Recycling reference prices and non-value item handling guide.</p>
+  </div>
+
+  <div class="header-right">
+  <div class="role-pill">{{ header_mode }}</div>
+  <div class="role-pill">{{ header_submode }}</div>
+  <a href="{{ back_url or '/' }}" class="back-btn">{{ back_label or '← Back' }}</a>
+</div>
+</div>
+
+<div class="page-wrap">
+
+  <div class="lang-switch">
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('zh')">中文</button>
+  </div>
+
+  <div class="hero-card">
+    <h2 id="title"></h2>
+    <p id="heroDesc"></p>
+  </div>
+
+  <div class="table-wrap">
+    <table class="price-table">
+      <thead>
+        <tr>
+          <th id="th-name"></th>
+          <th id="th-price"></th>
+          <th id="th-unit"></th>
+        </tr>
+      </thead>
+      <tbody id="price-body"></tbody>
+    </table>
+  </div>
+
+  <div class="notice-box" id="priceNote"></div>
+
+  <h2 class="section-title" id="nv-title"></h2>
+
+  <div class="table-wrap">
+    <table class="pro-table">
+      <thead>
+        <tr>
+          <th id="nv-item"></th>
+          <th id="nv-method"></th>
+          <th id="nv-price"></th>
+        </tr>
+      </thead>
+      <tbody id="nv-body"></tbody>
+    </table>
+  </div>
+
+  <div class="notice-box" id="chartNote"></div>
+
+  <div class="chart-box">
+    <h2 id="chartTitle"></h2>
+    <canvas id="priceChart"></canvas>
+  </div>
+
+  <div class="footer-note">
+    © 2026 GreenTrack Recycling System – Educational Prototype
+  </div>
+</div>
+
+<script>
+const priceEN = [
+ ["Recycle Cooking Oil","RM 2.50","/kg"],
+ ["Glass","RM 0.10","/kg"],
+ ["Old Carton Box (OCC+)","RM 0.25","/kg"],
+ ["Old Newspaper (ONP)","RM 0.20","/kg"],
+ ["White Paper (BW)","RM 0.30","/kg"],
+ ["Mixed Paper (MP)","RM 0.15","/kg"],
+ ["Mixed Waste Sheet (MWS)","RM 0.10","/kg"],
+ ["Scrap Metal (SP1)","RM 0.60","/kg"],
+ ["Scrap Metal (SP3)","RM 0.50","/kg"],
+ ["Tin Can (SP4)","RM 0.40","/kg"],
+ ["Aluminium UBC","RM 5.20","/kg"],
+ ["Aluminium Angle Frame","RM 5.50","/kg"],
+ ["Alloy","RM 5.50","/kg"],
+ ["Red Copper","RM 25.00","/kg"],
+ ["Brass","RM 15.00","/kg"],
+ ["Stainless Steel 202","RM 0.70","/kg"],
+ ["Stainless Steel 304","RM 2.50","/kg"],
+ ["Wet Battery","RM 2.50","/kg"],
+ ["Motorcycle Battery","RM 2.00","/kg"],
+ ["Mixed Plastics","RM 0.15","/kg"],
+ ["CD / DVD Disc","RM 0.50","/kg"],
+ ["CPU Board","RM 0.50","/kg"],
+ ["Monitor","RM 0.50","/unit"],
+ ["Television","RM 2.00–3.00","/unit"],
+ ["Refrigerator","RM 2.00–3.00","/unit"],
+ ["Washing Machine","RM 2.00–3.00","/unit"],
+ ["Air Conditioner","RM 1.50","/kg"],
+ ["DVD Player","RM 0.50","/unit"],
+ ["Old Handphone","RM 0.50","/unit"],
+ ["Plastic Bag","RM 0.10","/kg"]
+];
+
+const priceZH = [
+ ["回收油","RM 2.50","/kg"],
+ ["玻璃","RM 0.10","/kg"],
+ ["旧纸箱（OCC+）","RM 0.25","/kg"],
+ ["旧报纸（ONP）","RM 0.20","/kg"],
+ ["白纸（BW）","RM 0.30","/kg"],
+ ["杂纸（MP）","RM 0.15","/kg"],
+ ["鸡蛋板（MWS）","RM 0.10","/kg"],
+ ["铁类（SP1）","RM 0.60","/kg"],
+ ["铁类（SP3）","RM 0.50","/kg"],
+ ["牛奶罐（SP4）","RM 0.40","/kg"],
+ ["气水铝罐","RM 5.20","/kg"],
+ ["铝框","RM 5.50","/kg"],
+ ["合金","RM 5.50","/kg"],
+ ["红铜","RM 25.00","/kg"],
+ ["黄铜","RM 15.00","/kg"],
+ ["202 白钢","RM 0.70","/kg"],
+ ["304 白钢","RM 2.50","/kg"],
+ ["旧电池（湿）","RM 2.50","/kg"],
+ ["小电池（电单车）","RM 2.00","/kg"],
+ ["塑料（混合）","RM 0.15","/kg"],
+ ["光碟","RM 0.50","/kg"],
+ ["CPU 主板","RM 0.50","/kg"],
+ ["螢幕","RM 0.50","/unit"],
+ ["电视","RM 2.00–3.00","/unit"],
+ ["冰箱","RM 2.00–3.00","/unit"],
+ ["洗衣机","RM 2.00–3.00","/unit"],
+ ["冷气机","RM 1.50","/kg"],
+ ["DVD 播放器","RM 0.50","/unit"],
+ ["旧电话","RM 0.50","/unit"],
+ ["塑料袋","RM 0.10","/kg"]
+];
+
+const nvEN = [
+ ["📚 Reusable Books","Donate to libraries or charity groups.","RM 0.00"],
+ ["👕 Used Clothing","Donate to orphanages or textile recycling centres.","RM 0.00"],
+ ["🧸 Reusable Toys","Donate to community centres or charities.","RM 0.00"],
+ ["💊 Expired Medicine","Send to government hospitals for safe disposal.","RM 0.00"]
+];
+
+const nvZH = [
+ ["📚 可捐赠书本","捐赠给图书馆或慈善机构。","RM 0.00"],
+ ["👕 旧衣服","捐赠给孤儿院或纺织品回收中心。","RM 0.00"],
+ ["🧸 可重复使用玩具","捐赠给社区中心或慈善机构。","RM 0.00"],
+ ["💊 过期药物","送往政府医院进行安全处理。","RM 0.00"]
+];
+
+function renderPrice(data){
+  const body = document.getElementById("price-body");
+  body.innerHTML = "";
+  data.forEach(r => {
+    body.innerHTML += `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`;
+  });
+}
+
+function renderNonValue(data){
+  const body = document.getElementById("nv-body");
+  body.innerHTML = "";
+  data.forEach(r => {
+    body.innerHTML += `
+      <tr>
+        <td>${r[0]}</td>
+        <td>${r[1]}</td>
+        <td class="price">${r[2]}</td>
+      </tr>
+    `;
+  });
+}
+
+
+const chartLabelsEN = ["Oil","Metal","Paper","UBC"];
+const chartLabelsZH = ["回收油","金属","纸类","铝罐"];
+
+const chart = new Chart(document.getElementById("priceChart"), {
+  type: "bar",
+  data: {
+    labels: chartLabelsEN,
+    datasets: [{
+      label: "RM / kg",
+      data: [2.5, 0.6, 0.3, 5.2],
+      backgroundColor: "#43a047"
+    }]
+  },
+  options: {
+    responsive: true,
+
+    // ⭐ 这里加
+    plugins: {
+      tooltip: {
+        enabled: true,
+        backgroundColor: "#1b5e20",
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        borderColor: "#43a047",
+        borderWidth: 1
+      }
+    },
+
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "RM per kg"
+        }
+      }
+    }
+  }
+});
+
+function setLang(lang){
+  if(lang === "en"){
+    document.getElementById("title").innerText = "📊 Recycling Price Reference Table";
+    document.getElementById("heroDesc").innerText =
+      "This page provides reference recycling prices and non-value handling guidance for GreenTrack users.";
+    document.getElementById("th-name").innerText = "Item";
+    document.getElementById("th-price").innerText = "Reference Price";
+    document.getElementById("th-unit").innerText = "Unit";
+
+    document.getElementById("priceNote").innerText =
+      "Note: All prices shown are reference-based estimates for educational purposes only.";
+
+    document.getElementById("nv-title").innerText = "♻️ Non-Value Recyclable Items";
+    document.getElementById("nv-item").innerText = "Item";
+    document.getElementById("nv-method").innerText = "Handling Method";
+    document.getElementById("nv-price").innerText = "Price";
+
+    document.getElementById("chartNote").innerText =
+      "The chart below shows reference price estimates only. Actual recycling prices may vary.";
+    document.getElementById("chartTitle").innerText =
+      "Price Estimate Chart (Reference Value)";
+
+    chart.data.labels = chartLabelsEN;
+    chart.options.scales.y.title.text = "RM per kg";
+    chart.update();
+
+    renderPrice(priceEN);
+    renderNonValue(nvEN);
+  } else {
+    document.getElementById("title").innerText = "📊 回收价格参考表";
+    document.getElementById("heroDesc").innerText =
+      "此页面提供 GreenTrack 用户参考回收价格与无价值回收物处理建议。";
+    document.getElementById("th-name").innerText = "物品";
+    document.getElementById("th-price").innerText = "参考价格";
+    document.getElementById("th-unit").innerText = "单位";
+
+    document.getElementById("priceNote").innerText =
+      "注意：以上价格仅为教育用途的参考估算，并非实际回收站价格。";
+
+    document.getElementById("nv-title").innerText = "♻️ 无回收价值物品（RM 0.00）";
+    document.getElementById("nv-item").innerText = "项目";
+    document.getElementById("nv-method").innerText = "处理方式";
+    document.getElementById("nv-price").innerText = "价格";
+
+    document.getElementById("chartNote").innerText =
+      "以下图表所示价格仅供参考，实际回收价格可能有所不同。";
+    document.getElementById("chartTitle").innerText =
+      "价格估算图（参考值）";
+
+    chart.data.labels = chartLabelsZH;
+    chart.options.scales.y.title.text = "每公斤（RM）";
+    chart.update();
+
+    renderPrice(priceZH);
+    renderNonValue(nvZH);
+  }
+}
+
+setLang("en");
+</script>
+
+</body>
+</html>

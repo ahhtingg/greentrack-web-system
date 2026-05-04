@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenTrack | Rankings</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #e8f1ee, #f7fbf9);
+      color: #233846;
+    }
+
+    .page-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 18px;
+    }
+
+    .back-btn {
+      background: linear-gradient(135deg, #1f7a8c, #5f9b86);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+      transition: 0.2s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 40px;
+      font-weight: 800;
+      color: #1f3545;
+      margin: 0 0 10px;
+    }
+
+    .page-subtitle {
+      text-align: center;
+      color: #62727d;
+      font-size: 15px;
+      margin-bottom: 28px;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #1f7a8c, #6aa187);
+      color: white;
+      border-radius: 20px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+    }
+
+    .banner h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .banner p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.96;
+    }
+
+    .filter-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-group label {
+      font-weight: 700;
+      color: #325162;
+    }
+
+    select {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid #cdd9d5;
+      background: #fff;
+      font-size: 14px;
+      min-width: 140px;
+      outline: none;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      border: 1px solid #edf2ef;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #687984;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 30px;
+      font-weight: 800;
+      color: #18485a;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .ranking-card {
+      background: #fff;
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.07);
+      border: 1px solid #edf2ef;
+    }
+
+    .ranking-card h3 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      color: #1f7a8c;
+    }
+
+    .ranking-desc {
+      margin: 0 0 18px;
+      color: #6a7a84;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #1f7a8c, #6aa187);
+      color: white;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+
+    .highlight-box .small {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      opacity: 0.95;
+    }
+
+    .highlight-box .big {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #edf7f8;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      text-align: center;
+      border-bottom: 1px solid #edf1ef;
+    }
+
+    th {
+      color: #1f7a8c;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    tbody tr:hover {
+      background: #f9fcfb;
+    }
+
+    .rank-1 {
+      background: #fff7d6;
+      font-weight: 700;
+    }
+
+    .rank-2 {
+      background: #f4f4f4;
+      font-weight: 700;
+    }
+
+    .rank-3 {
+      background: #fff0df;
+      font-weight: 700;
+    }
+
+    .user-cell {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6f9a83, #1f7a8c);
+      color: white;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .performance-wrap {
+      text-align: left;
+    }
+
+    .performance-text {
+      font-weight: 700;
+      color: #294a57;
+      margin-bottom: 6px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #e0ebe7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #1f7a8c, #74a68d);
+      border-radius: 999px;
+    }
+
+    .empty-text {
+      text-align: center;
+      color: #788892;
+      padding: 18px;
+    }
+
+
+    .note-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: #f4faf8;
+      border-left: 4px solid #67a084;
+      color: #576b75;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+/* ✅ 修好版本（直接用这个） */
+    .award-note{
+      margin-top:18px;
+      padding:18px 20px;
+      border-radius:16px;
+      background:linear-gradient(135deg,#f4faf8,#ffffff);
+      border:1px solid #dceee8;
+      box-shadow:0 6px 16px rgba(0,0,0,0.06);
+    }
+
+    .award-note strong{
+      display:block;
+      color:#1f7a8c;
+      font-size:16px;
+      margin-bottom:10px;
+    }
+
+    .award-note p{
+      margin:0;
+      color:#576b75;
+      line-height:1.6;
+      font-size:14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="top-bar">
+      <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+    </div>
+
+    <h1 class="page-title">Community Recycling Rankings</h1>
+    <p class="page-subtitle">
+      View your monthly rank, overall rank, and community leaderboard results by year and month.
+    </p>
+
+    <div class="banner">
+      <h2>Resident Ranking View</h2>
+      <p>
+        This page focuses on ranking information only. Residents can view monthly and overall ranking results,
+        while all recycling records are entered and verified by officers or recycling staff.
+      </p>
+    </div>
+
+    <div class="filter-row">
+      <div class="filter-group">
+        <label for="yearSelect">Select Year:</label>
+        <select id="yearSelect"></select>
+      </div>
+
+      <div class="filter-group">
+        <label for="monthSelect">Select Month:</label>
+        <select id="monthSelect"></select>
+      </div>
+
+      <div class="filter-group">
+        <label for="rankingBasis">Ranking Based On:</label>
+        <select id="rankingBasis">
+          <option value="weight">Total Weight</option>
+          <option value="count">Participation Count</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="summary-grid">
+      <div class="stat-card">
+        <div class="stat-label">My Monthly Rank</div>
+        <div class="stat-value" id="monthlyRankValue">-</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">My Overall Rank</div>
+        <div class="stat-value" id="overallRankValue">-</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Selected Period</div>
+        <div class="stat-value" id="selectedPeriodValue">-</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-label">Ranking Basis</div>
+        <div class="stat-value" id="rankingBasisValue">Weight</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="ranking-card">
+        <h3>📅 Monthly Ranking</h3>
+        <p class="ranking-desc">
+          Top 5 residents for the selected month and year.
+        </p>
+
+        <div class="highlight-box">
+          <div class="small">Your Monthly Ranking</div>
+          <div class="big" id="myMonthlyRankText">Loading...</div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th style="text-align:left;">Username</th>
+              <th id="performanceHeader">Total Performance</th>
+            </tr>
+          </thead>
+          <tbody id="monthlyRankingTable"></tbody>
+        </table>
+      </div>
+
+      <div class="ranking-card">
+        <h3>🏆 Overall Ranking</h3>
+        <p class="ranking-desc">
+          Top 5 residents based on cumulative recycling performance across all recorded data.
+        </p>
+
+        <div class="highlight-box">
+          <div class="small">Your Overall Ranking</div>
+          <div class="big" id="myOverallRankText">Loading...</div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th style="text-align:left;">Username</th>
+              <th id="overallPerformanceHeader">Total Performance</th>
+            </tr>
+          </thead>
+          <tbody id="overallRankingTable"></tbody>
+        </table>
+
+        <div class="note-box award-note">
+        <strong>🏅 Annual Award Reference</strong>
+        <p>
+          Annual award decisions can be based on verified cumulative participation and overall recycling contribution.
+        </p>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = "";
+
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    let recyclingRecords = [];
+    let currentRole = "";
+
+    const yearSelect = document.getElementById("yearSelect");
+    const monthSelect = document.getElementById("monthSelect");
+    const rankingBasis = document.getElementById("rankingBasis");
+
+    const monthlyRankValue = document.getElementById("monthlyRankValue");
+    const overallRankValue = document.getElementById("overallRankValue");
+    const selectedPeriodValue = document.getElementById("selectedPeriodValue");
+    const rankingBasisValue = document.getElementById("rankingBasisValue");
+
+const monthlyHeader = document.getElementById("performanceHeader");
+const overallHeader = document.getElementById("overallPerformanceHeader");
+
+function updatePerformanceHeaders() {
+  if (rankingBasis.value === "count") {
+    monthlyHeader.textContent = "Total Entries";
+    overallHeader.textContent = "Total Entries";
+  } else {
+    monthlyHeader.textContent = "Total Weight (kg)";
+    overallHeader.textContent = "Total Weight (kg)";
+  }
+}
+
+    const myMonthlyRankText = document.getElementById("myMonthlyRankText");
+    const myOverallRankText = document.getElementById("myOverallRankText");
+
+    const monthlyRankingTable = document.getElementById("monthlyRankingTable");
+    const overallRankingTable = document.getElementById("overallRankingTable");
+
+    function goBack() {
+      window.location.href = "user_dashboard";
+    }
+
+    function getInitial(name) {
+      return name ? name.charAt(0).toUpperCase() : "?";
+    }
+
+    function getRankDisplay(rank) {
+      if (rank === 1) return "🥇 1";
+      if (rank === 2) return "🥈 2";
+      if (rank === 3) return "🥉 3";
+      return "#" + rank;
+    }
+
+    function populateYearSelect() {
+      const years = [...new Set(recyclingRecords.map(item => item.year))].sort((a, b) => a - b);
+
+      if (years.length === 0) {
+        const currentYear = new Date().getFullYear();
+        yearSelect.innerHTML = `<option value="${currentYear}">${currentYear}</option>`;
+        yearSelect.value = currentYear;
+        return;
+      }
+
+      yearSelect.innerHTML = years.map(year => `<option value="${year}">${year}</option>`).join("");
+      yearSelect.value = years[years.length - 1];
+    }
+
+    function populateMonthSelect() {
+      monthSelect.innerHTML = monthNames
+        .map((month, index) => `<option value="${index + 1}">${month}</option>`)
+        .join("");
+    }
+
+    function aggregateMonthly(records, year, month) {
+      const selected = records.filter(item => item.year === year && item.month === month);
+      const grouped = {};
+
+      selected.forEach(item => {
+        if (!grouped[item.username]) {
+          grouped[item.username] = {
+            username: item.username,
+            totalWeight: 0,
+            totalCount: 0
+          };
+        }
+        grouped[item.username].totalWeight += item.weight;
+        grouped[item.username].totalCount += item.count;
+      });
+
+      return Object.values(grouped);
+    }
+
+    function aggregateOverall(records) {
+      const grouped = {};
+
+      records.forEach(item => {
+        if (!grouped[item.username]) {
+          grouped[item.username] = {
+            username: item.username,
+            totalWeight: 0,
+            totalCount: 0
+          };
+        }
+        grouped[item.username].totalWeight += item.weight;
+        grouped[item.username].totalCount += item.count;
+      });
+
+      return Object.values(grouped);
+    }
+
+    function sortRanking(data, basis) {
+      return [...data].sort((a, b) => {
+        if (basis === "count") {
+          return b.totalCount - a.totalCount || b.totalWeight - a.totalWeight;
+        }
+        return b.totalWeight - a.totalWeight || b.totalCount - a.totalCount;
+      });
+    }
+
+    function renderRankingTable(data, tableBody, basis) {
+      tableBody.innerHTML = "";
+
+      if (data.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="3" class="empty-text">No ranking data available for the selected criteria.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      const top5 = data.slice(0, 5);
+      const maxValue = Math.max(...top5.map(item => basis === "count" ? item.totalCount : item.totalWeight));
+
+      top5.forEach((item, index) => {
+        const rank = index + 1;
+        const row = document.createElement("tr");
+
+        if (item.username === currentUser) {
+        row.classList.add("current-user");
+        }
+
+        if (rank === 1) row.classList.add("rank-1");
+        if (rank === 2) row.classList.add("rank-2");
+        if (rank === 3) row.classList.add("rank-3");
+
+        const displayValue = basis === "count"
+          ? `${item.totalCount} ${item.totalCount === 1 ? "entry" : "entries"}`
+          : `${item.totalWeight.toFixed(1)} kg`;
+
+        const percent = maxValue > 0
+          ? ((basis === "count" ? item.totalCount : item.totalWeight) / maxValue) * 100
+          : 0;
+
+        row.innerHTML = `
+          <td>${getRankDisplay(rank)}</td>
+          <td style="text-align:left;">
+            <div class="user-cell">
+              <div class="avatar">${getInitial(item.username)}</div>
+              <span>
+            ${item.username}
+            ${item.username === currentUser ? "(You)" : ""}
+            </span>
+            </div>
+          </td>
+          <td>
+            <div class="performance-wrap">
+              <div class="performance-text">${displayValue}</div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width:${percent}%"></div>
+              </div>
+            </div>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    function updateSelectedPeriod() {
+      const selectedYear = parseInt(yearSelect.value);
+      const selectedMonth = parseInt(monthSelect.value);
+
+      const safeMonth = monthNames[selectedMonth - 1] || "January";
+      const safeYear = isNaN(selectedYear) ? new Date().getFullYear() : selectedYear;
+
+      selectedPeriodValue.textContent = `${safeMonth} ${safeYear}`;
+    }
+
+    function updateRankingBasisText() {
+      rankingBasisValue.textContent = rankingBasis.value === "count" ? "Count" : "Weight";
+    }
+
+    function updateMonthlyRanking() {
+      const selectedYear = parseInt(yearSelect.value);
+      const selectedMonth = parseInt(monthSelect.value);
+      const basis = rankingBasis.value;
+
+      const safeMonth = monthNames[selectedMonth - 1] || "January";
+      const safeYear = isNaN(selectedYear) ? new Date().getFullYear() : selectedYear;
+
+      const monthlyData = sortRanking(
+        aggregateMonthly(recyclingRecords, safeYear, selectedMonth),
+        basis
+      );
+
+      renderRankingTable(monthlyData, monthlyRankingTable, basis);
+
+      const myIndex = monthlyData.findIndex(item => item.username === currentUser);
+
+      if (currentRole !== "resident") {
+      monthlyRankValue.textContent = "-";
+      myMonthlyRankText.textContent = `Officer overview for ${safeMonth} ${safeYear}`;
+    } else if (myIndex === -1) {
+      monthlyRankValue.textContent = "-";
+      myMonthlyRankText.textContent = `You have no ranking record in ${safeMonth} ${safeYear}`;
+    } else {
+        monthlyRankValue.textContent = `#${myIndex + 1}`;
+        myMonthlyRankText.textContent = `You are ranked #${myIndex + 1} in ${safeMonth} ${safeYear}`;
+      }
+    }
+
+    function updateOverallRanking() {
+      const basis = rankingBasis.value;
+
+      const overallData = sortRanking(aggregateOverall(recyclingRecords), basis);
+      renderRankingTable(overallData, overallRankingTable, basis);
+
+      const myIndex = overallData.findIndex(item => item.username === currentUser);
+
+      if (currentRole !== "resident") {
+      overallRankValue.textContent = "-";
+      myOverallRankText.textContent = "Officer overview of overall ranking";
+    } else if (myIndex === -1) {
+      overallRankValue.textContent = "-";
+      myOverallRankText.textContent = "You have no overall ranking record yet";
+    } else {
+        overallRankValue.textContent = `#${myIndex + 1}`;
+        myOverallRankText.textContent = `You are ranked #${myIndex + 1} overall`;
+      }
+    }
+
+    function refreshPage() {
+      updateSelectedPeriod();
+      updateRankingBasisText();
+      updatePerformanceHeaders();
+      updateMonthlyRanking();
+      updateOverallRanking();
+    }
+
+    async function loadRankingData() {
+      try {
+        const response = await fetch("/api/ranking_data");
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.message || "Failed to load ranking data");
+        }
+
+        currentUser = data.current_user;
+        currentRole = data.current_role;
+        recyclingRecords = data.records;
+
+        initPage();
+      } catch (error) {
+        console.error("Failed to load ranking data:", error);
+        monthlyRankingTable.innerHTML = `
+          <tr><td colspan="3" class="empty-text">Failed to load ranking data.</td></tr>
+        `;
+        overallRankingTable.innerHTML = `
+          <tr><td colspan="3" class="empty-text">Failed to load ranking data.</td></tr>
+        `;
+      }
+    }
+
+    function initPage() {
+      populateYearSelect();
+      populateMonthSelect();
+
+      const latestRecord = recyclingRecords[recyclingRecords.length - 1];
+      if (latestRecord) {
+        yearSelect.value = latestRecord.year;
+        monthSelect.value = latestRecord.month;
+      } else {
+        monthSelect.value = "1";
+      }
+
+      refreshPage();
+    }
+    yearSelect.addEventListener("change", refreshPage);
+    monthSelect.addEventListener("change", refreshPage);
+    rankingBasis.addEventListener("change", refreshPage);
+
+    loadRankingData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Certificate Created | GreenTrack</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:"Segoe UI", Arial, sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#dff5e1,#c4e3cb,#a8d5ba);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:24px;
+      color:#23352b;
+    }
+
+    .card{
+      width:100%;
+      max-width:520px;
+      background:white;
+      border-radius:22px;
+      padding:28px 26px;
+      box-shadow:0 14px 30px rgba(0,0,0,0.10);
+      border:1px solid #edf2ef;
+    }
+
+    h1{
+      text-align:center;
+      font-size:30px;
+      color:#1f7a8c;
+      margin-bottom:10px;
+    }
+
+    .success{
+      text-align:center;
+      font-size:15px;
+      color:#5e747f;
+      margin-bottom:20px;
+      line-height:1.7;
+    }
+
+    .id-box{
+      background:#eef8f6;
+      border:1px solid #d9ece7;
+      border-radius:14px;
+      padding:14px;
+      text-align:center;
+      font-weight:800;
+      color:#1f7a8c;
+      margin-bottom:18px;
+      font-size:18px;
+    }
+
+    .meta{
+      background:#f9fcfb;
+      border:1px solid #e8efec;
+      border-radius:16px;
+      padding:16px 18px;
+      line-height:1.9;
+      color:#355464;
+      margin-bottom:18px;
+    }
+
+    .meta p{
+      font-size:14px;
+    }
+
+    .meta strong{
+      color:#1f7a8c;
+    }
+
+    .qr-wrap{
+      text-align:center;
+      margin:20px 0;
+    }
+
+    .qr-wrap img{
+      border-radius:12px;
+      border:1px solid #ddd;
+      background:white;
+      padding:6px;
+    }
+
+    .qr-hint{
+      margin-top:10px;
+      font-size:13px;
+      color:#4f6f64;
+      text-align:center;
+      line-height:1.5;
+    }
+
+    .qr-hint span{
+      color:#6f8279;
+    }
+
+    .btn{
+      display:block;
+      width:100%;
+      margin-top:10px;
+      padding:12px 16px;
+      background:#2e7d32;
+      color:white;
+      text-decoration:none;
+      border-radius:12px;
+      font-weight:700;
+      text-align:center;
+      transition:0.2s ease;
+    }
+
+    .btn:hover{
+      background:#1b5e20;
+    }
+
+    .btn.back{
+      background:#6b84a6;
+    }
+
+    .btn.back:hover{
+      background:#64748b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>✅ Certificate Created</h1>
+
+    <p class="success">
+      The certificate has been generated successfully and is now ready for verification or download.
+    </p>
+
+    <div class="id-box">
+      Certificate ID: {{ cert_id }}
+    </div>
+
+    <div class="meta">
+      <p><strong>Name:</strong> {{ name }}</p>
+      <p><strong>Programme:</strong> {{ programme }}</p>
+      <p><strong>Location:</strong> {{ location }}</p>
+      <p><strong>Date:</strong> {{ formatted_date }}</p>
+
+      {% if remarks %}
+        <p><strong>Remarks:</strong> {{ remarks }}</p>
+      {% endif %}
+    </div>
+
+    <div class="qr-wrap">
+      <img src="/qr/{{ cert_id }}" width="180" alt="QR Code">
+
+      <p class="qr-hint">
+        📱 Scan to verify certificate<br>
+        <span>扫描此二维码以验证证书</span>
+      </p>
+    </div>
+
+    <a href="/verify/{{ cert_id }}" class="btn">🔍 Verify Certificate</a>
+    <a href="/download/{{ cert_id }}" class="btn">📄 Download PDF</a>
+    <a href="/issued_certificates" class="btn">📋 View Issued Certificates</a>
+    <a href="/generate_certificate" class="btn back">↩ Back to Generate Certificate</a>
+  </div>
+
+</body>
+</html>
