@@ -262,7 +262,7 @@ def register():
     if not re.search(r"[0-9]", password):
         flash("Password must contain at least 1 number.")
         return redirect(url_for("register"))
-    if not re.search(r"[#\$%&\*_+\-/]", password):
+    if not re.search(r"[#\$%&\*_\+\-/!@]", password):
         flash("Password must contain at least 1 special symbol.")
         return redirect(url_for("register"))
 
@@ -312,7 +312,7 @@ def api_certificates():
     conn.close()
 
     certificates = []
-    base_url = f"http://{get_local_ip()}:5000"
+    base_url = "https://prance-excavator-unlivable.ngrok-free.dev"
 
     for row in rows:
         certificates.append({
@@ -703,8 +703,8 @@ def generate_certificate_page():
 # 生成 QR
 # =========================
 def generate_qr(cert_id):
-    host = get_local_ip()
-    url = f"http://{host}:5000/verify/{cert_id}"
+    base_url = "https://prance-excavator-unlivable.ngrok-free.dev"
+    url = f"{base_url}/verify/{cert_id}"
 
     if not os.path.exists("qr_codes"):
         os.makedirs("qr_codes")
@@ -1024,7 +1024,7 @@ def reset_password():
     if not re.search(r"[0-9]", password):
         flash("Password must contain at least 1 number.")
         return redirect(url_for("reset_password"))
-    if not re.search(r"[#\$%&\*_+\-/]", password):
+    if not re.search(r"[#\$%&\*_\+\-/!@]", password):
         flash("Password must contain at least 1 special symbol.")
         return redirect(url_for("reset_password"))
 
@@ -1148,7 +1148,7 @@ def create_officer():
     if not re.search(r"[0-9]", password):
         flash("Password must contain at least 1 number.")
         return redirect("/admin_create_officer")
-    if not re.search(r"[#\$%&\*_+\-/]", password):
+    if not re.search(r"[#\$%&\*_\+\-/!@]", password):
         flash("Password must contain at least 1 special symbol.")
         return redirect("/admin_create_officer")
 

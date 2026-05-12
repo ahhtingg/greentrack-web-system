@@ -74,8 +74,7 @@ input {
 .forgot {
   text-align: right;
   font-size: 12px;
-  margin-top: -5px;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 .forgot a {
@@ -160,6 +159,28 @@ button:active {
   transform:translateY(-1px);
 }
 
+.show-password{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  font-size:13px;
+  color:#2f6046;
+}
+
+.show-password input{
+  width:auto;
+  margin:0;
+}
+
+.password-options{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:8px;
+  margin-bottom:10px;
+}
+
 </style>
 </head>
 
@@ -196,20 +217,34 @@ button:active {
     </div>
 
     <div class="input-group">
-      <label>Password</label>
-      <input type="password" id="password" name="password" autocomplete="new-password" required>
-    </div>
+  <label>Password</label>
+
+  <input type="password"
+         id="password"
+         name="password"
+         autocomplete="new-password"
+         required>
+
+  <div class="password-options">
+
+    <label class="show-password">
+      <input type="checkbox" onclick="togglePassword()">
+      Show Password
+    </label>
 
     <div class="forgot">
       <a href="/forgot_password">Forgot password?</a>
     </div>
 
-    <button type="submit">Sign In</button>
-  </form>
-
-  <div class="bottom">
-    New here? <a href="/register">Create an account</a>
   </div>
+
+</div>
+
+<button type="submit">Sign In</button>
+
+  <div class="bottom" id="registerLink">
+  New here? <a href="/register">Create an account</a>
+</div>
 
 </div>
 
@@ -224,13 +259,28 @@ if (role === "resident" || role === "merchant" || role === "officer" || role ===
   document.getElementById("loginSubtitle").textContent = "Sign in to your " + roleText + " account";
 
   const roleBox = document.getElementById("roleBox");
-  roleBox.style.display = "block";
-  roleBox.textContent = "You are logging in as " + roleText;
+  roleBox.style.display = "none";
 }
 
 if (role) {
   document.getElementById("selectedRole").value = role;
 }
+
+/* ✅ 加这个：只有 resident 显示注册 */
+if (role === "merchant" || role === "officer" || role === "superadmin") {
+  document.getElementById("registerLink").style.display = "none";
+}
+
+function togglePassword(){
+  const passwordInput = document.getElementById("password");
+
+  if(passwordInput.type === "password"){
+    passwordInput.type = "text";
+  }else{
+    passwordInput.type = "password";
+  }
+}
+
 </script>
 
 </body>
